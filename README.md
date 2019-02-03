@@ -38,7 +38,7 @@ use node_compressed_block.js to build "node_compressed_block.js" from blocks/*
 
 use node_compressed_generator.js to build "node_compressed_generator.js" from generator/*
 
-index.html is the release version of mbed-blockly.
+"release" folder is the release version of mbed-blockly.
 
 ## Version
 

@@ -1,0 +1,7 @@
+{
+    "name": "blockly-mbed",
+    "version": "0.0.1",
+    "devDependencies": {
+        "google-closure-compiler-js": "20171203.0.0"
+    }
+}
