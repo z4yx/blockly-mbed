@@ -22,7 +22,16 @@ The index.html favor and index_utility.js wrapper are based on BlocklyDuino whil
 
 Notice that because Ardublockly changes some functions of google blockly core, blocks and msg, the project has to use in source build. 
 
-Still, for developing and debugging, google "closure-library/" is needed but "blockly-master" branch is no longer needed.
+Still, for developing and debugging, google [closure-library](https://github.com/google/closure-library)(v20171203) is needed but "blockly-master" branch is no longer needed.
+
+First, download a specified version [closure-library](https://github.com/google/closure-library/archive/v20171203.zip) and unzip it to the same directory with `blockly-mbed`.
+That is:
+
+* root
+  * blockly-mbed
+  * closure-library
+
+Then open `index_debug.html` and you are done.
 
 ## Release Build
 
@@ -32,11 +41,11 @@ Therefore, no depedency on closure-library is needed and the browser can read on
 
 Currently, I use nodejs "google-closure-compiler-js" modules to compress these files.
 
-use node_compressed_utility.js to build "node_compressed_utility.js" from msg/*
+use node_compress_utility.js to build "node_compressed_utility.js" from msg/*
 
-use node_compressed_block.js to build "node_compressed_block.js" from blocks/*
+use node_compress_block.js to build "node_compressed_block.js" from blocks/*
 
-use node_compressed_generator.js to build "node_compressed_generator.js" from generator/*
+use node_compress_generator.js to build "node_compressed_generator.js" from generator/*
 
 "release" folder is the release version of mbed-blockly.
 
@@ -61,7 +70,7 @@ For the latter (blockly), I only need parts of it. Therefore, I should manually 
 
 * `core/*`
 * `blocks/*`
-* `msg/js/en.js`
+* `msg/message.js`
 
 ## Reference
  
