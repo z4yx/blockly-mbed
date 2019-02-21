@@ -133,8 +133,11 @@ Blockly.mbed.Boards['profiles']['nucleo_f103rb']={
     spi1_alternative:{'MOSI': 'PB_5', 'MISO':'PB_4', 'SCK': 'PB_3'},
     spiPins: { SPI1: {'MOSI': 'PA_7','MISO': 'PA_6','SCK': 'PA_5'},
                SPI2: {'MOSI': 'PB_15','MISO': 'PB_14','SCK': 'PB_13'}},
-    i2c: [['I2C', 'Wire']],
-    i2cPins: { Wire: [['SDA', 'A4'], ['SCL', 'A5']] },
+    i2cMapper: {'PB_6': 'I2C_1', 'PB_7': 'I2C_1', 'PB_8': 'I2C_1', 'PB_9': 'I2C_1', 
+            'PB_10': 'I2C_2', 'PB_11': 'I2C_2'},
+    i2cPins: [['I2C_1','I2C_1'],['I2C_2','I2C_2']],
+    i2cPinsSDA: [['PB_9','PB_9'],['PB_11','PB_11'],['PB_7','PB_7']],
+    i2cPinsSCL: [['PB_8','PB_8'],['PB_10','PB_10'],['PB_6','PB_6']],
     i2cSpeed: [['100kHz', '100000L'], ['400kHz', '400000L']],
     builtinLed: [['LED_1', 'PA_5']],
     interrupt: [['interrupt0', '2'], ['interrupt1', '3']]    
