@@ -131,3 +131,177 @@ Blockly.Blocks.bh1750_read.updateFields = function () {
     Blockly.mbed.Boards.refreshBlockFieldDropdown(
         this, 'I2C_Pins', 'i2cPins');
 };
+
+
+
+Blockly.Blocks.bmp180_setup = {};
+Blockly.Blocks.bmp180_temp = {};
+Blockly.Blocks.bmp180_pressure = {};
+
+Blockly.Blocks.bmp180_setup.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("BMP180 Setup SDA:", 'BMP180_NAME')
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.i2cPinsSDA), 'I2C_SDA')
+        .appendField("SCL:")
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.i2cPinsSCL), 'I2C_SCL');
+    this.setInputsInline(true);
+    /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+        it is very hard to detect whether the i2c is initialized or not
+    */
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(true, null);
+};
+/**
+ * Returns the i2c instance name.
+ * @return {!string} BMP180 instance name.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_setup.getBMP180SetupInstance = function () {
+    return Blockly.mbed.Boards.selected.i2cMapper[this.getFieldValue('I2C_SDA')];
+};
+Blockly.Blocks.bmp180_setup.onchange = function () {
+    if (!this.workspace) { return; }  // Block has been deleted.
+
+    //Get the BMP180 instance from this block
+    var sda = this.getFieldValue('I2C_SDA');
+    var scl = this.getFieldValue('I2C_SCL');
+    var sdaIns = Blockly.mbed.Boards.selected.i2cMapper[sda];
+    var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
+    if (sdaIns == sclIns) {
+        this.setWarningText(null, 'i2c_mismatch');
+        this.setFieldValue('BMP180 on %1 Setup SDA:'.replace('%1', sdaIns), 'BMP180_NAME');
+    }
+    else {
+        this.setWarningText(sdaIns + " mismatches " + sclIns, 'i2c_mismatch');
+        this.setFieldValue('BMP180 Setup SDA', 'BMP180_NAME');
+    }
+};
+/**
+ * Updates the content of the the i2c related fields.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_setup.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_SDA', 'digitalPins');
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_SCL', 'digitalPins');
+};
+/**
+ * Read temperature from BMP180.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_temp.init = function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Temperature of BMP180 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'I2C_Pins');
+    this.setInputsInline(false);
+    this.setTooltip("Read temperature from BMP180");
+
+};
+/**
+ * Called whenever anything on the workspace changes.
+ * It checks the instances of bmp180_setup and attaches a warning to this
+ * block if not valid data is found.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_temp.onchange = function () {
+    if (!this.workspace) { return; }  // Block has been deleted.
+
+    //Get the I2C instance from this block
+    var thisInstanceName = this.getFieldValue('I2C_Pins');
+    var setupInstancePresent = false;
+    //Iterate through top level blocks to find setup instance for the I2C id
+    var blocks = Blockly.mainWorkspace.getTopBlocks();
+    for (var x = 0; x < blocks.length; x++) {
+        var func = blocks[x].getBMP180SetupInstance;
+        if (func) {
+            var setupBlockInstanceName = func.call(blocks[x]);
+            if (thisInstanceName == setupBlockInstanceName) {
+                setupInstancePresent = true;
+            }
+        }
+    }
+    if (!setupInstancePresent) {
+        this.setWarningText(Blockly.Msg.MBED_SERIAL_PRINT_WARN.replace('%1',
+            thisInstanceName), 'bmp180_temp');
+    } else {
+        this.setWarningText(null, 'bmp180_temp');
+    }
+};
+/**
+ * Updates the content of the the bmp180 related fields.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_temp.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_Pins', 'i2cPins');
+};
+
+
+/**
+ * Read pressure from BMP180.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_pressure.init = function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Pressure BMP180 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'I2C_Pins');
+    this.setInputsInline(false);
+    this.setTooltip("Read pressure from BMP180");
+
+};
+/**
+ * Called whenever anything on the workspace changes.
+ * It checks the instances of bmp180_setup and attaches a warning to this
+ * block if not valid data is found.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_pressure.onchange = function () {
+    if (!this.workspace) { return; }  // Block has been deleted.
+
+    //Get the I2C instance from this block
+    var thisInstanceName = this.getFieldValue('I2C_Pins');
+    var setupInstancePresent = false;
+    //Iterate through top level blocks to find setup instance for the I2C id
+    var blocks = Blockly.mainWorkspace.getTopBlocks();
+    for (var x = 0; x < blocks.length; x++) {
+        var func = blocks[x].getBMP180SetupInstance;
+        if (func) {
+            var setupBlockInstanceName = func.call(blocks[x]);
+            if (thisInstanceName == setupBlockInstanceName) {
+                setupInstancePresent = true;
+            }
+        }
+    }
+    if (!setupInstancePresent) {
+        this.setWarningText(Blockly.Msg.MBED_SERIAL_PRINT_WARN.replace('%1',
+            thisInstanceName), 'bmp180_pressure');
+    } else {
+        this.setWarningText(null, 'bmp180_pressure');
+    }
+};
+/**
+ * Updates the content of the the bmp180 related fields.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.bmp180_pressure.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_Pins', 'i2cPins');
+};
