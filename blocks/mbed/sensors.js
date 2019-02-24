@@ -305,3 +305,49 @@ Blockly.Blocks.bmp180_pressure.updateFields = function () {
     Blockly.mbed.Boards.refreshBlockFieldDropdown(
         this, 'I2C_Pins', 'i2cPins');
 };
+
+Blockly.Blocks.dht11_setup = {};
+Blockly.Blocks.dht11_temp = {};
+Blockly.Blocks.dht11_humidity = {};
+
+Blockly.Blocks.dht11_setup.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("DHT11 On:", 'DHT11_NAME')
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.digitalPins), 'IO');
+    this.setInputsInline(true);
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(true, null);
+};
+Blockly.Blocks.dht11_setup.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'IO', 'digitalPins');
+};
+Blockly.Blocks.dht11_temp.init = function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Temperature of DHT11 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'IO');
+    this.setInputsInline(false);
+    this.setTooltip("Read temperature from DHT11");
+};
+Blockly.Blocks.dht11_temp.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'IO', 'digitalPins');
+};
+Blockly.Blocks.dht11_humidity.init = function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Humidity of DHT11 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'IO');
+    this.setInputsInline(false);
+    this.setTooltip("Read humidity from DHT11");
+};
+Blockly.Blocks.dht11_humidity.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'IO', 'digitalPins');
+};
