@@ -346,12 +346,53 @@ function block_read_input(sensor_name, input_name)
     return read_value;
 }
 
+function block_value_readable(sensor_name)
+{
+    var read_value = {};
+    read_value.init = function () {
+        this.setOutput(true, null);
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField(sensor_name+" on ")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'IO')
+            .appendField(" is readable");
+        this.setInputsInline(false);
+    };
+    read_value.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'IO', 'digitalPins');
+    };
+    return read_value;
+}
+
+function block_value_reset(sensor_name)
+{
+    var read_value = {};
+    read_value.init = function () {
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("Reset "+sensor_name+" on ")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'IO');
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    };
+    read_value.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'IO', 'digitalPins');
+    };
+    return read_value;
+}
+
 Blockly.Blocks.dht11_setup = block_setup_digitalPin("DHT11");
 Blockly.Blocks.dht11_temp = block_read_input("DHT11", "Temperature");
 Blockly.Blocks.dht11_humidity = block_read_input("DHT11", "Humidity");
+Blockly.Blocks.dht11_readable = block_value_readable("DHT11");
 
 Blockly.Blocks.ds18B20_setup = block_setup_digitalPin("DS18B20");
 Blockly.Blocks.ds18B20_temp = block_read_input("DS18B20", "Temperature");
+Blockly.Blocks.ds18B20_readable = block_value_readable("DS18B20");
 
 Blockly.Blocks.sr501_setup = block_setup_digitalPin("SR501");
 Blockly.Blocks.sr501_o = block_read_input("SR501", "Output");
+Blockly.Blocks.sr501_readable = block_value_readable("SR501");
+Blockly.Blocks.sr501_reset = block_value_reset("SR501");
