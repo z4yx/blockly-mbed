@@ -90,7 +90,14 @@ Blockly.mbed.Boards['profiles']['nucleo_f103rb']={
   [ 'PD_2', 'PD_2' ],
   [ 'PF_0', 'PF_0' ],
   [ 'PF_1', 'PF_1' ] ],
-    analogPins: Blockly.mbed.Boards.generateAnalogIo(0, 5),    
+  analogPins: [
+    [ 'PA_0', 'PA_0' ],
+    [ 'PA_1', 'PA_1' ],
+    [ 'PA_4', 'PA_4' ],
+    [ 'PB_0', 'PB_0' ],
+    [ 'PC_0', 'PC_0' ],
+    [ 'PC_1', 'PC_1' ],
+  ],
     /*not distinguish Timer */
     pwmPins: [ [ 'PA_1', 'PA_1' ],
   [ 'PA_10', 'PA_10' ],
