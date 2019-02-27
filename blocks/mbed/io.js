@@ -111,36 +111,30 @@ Blockly.Blocks['io_builtin_led'] = {
   },
 };
 
-Blockly.Blocks['io_analogwrite'] = {
-  /**
-   * Block for creating a 'set pin' to an analogue value.
-   * @this Blockly.Block
-   */
+Blockly.Blocks.io_pwm_set = {
   init: function() {
-    this.setHelpUrl('http://mbed.cc/en/Reference/AnalogWrite');
     this.setColour(Blockly.Blocks.io.HUE);
-    this.appendValueInput('NUM')
-        .appendField(Blockly.Msg.MBED_ANALOGWRITE)
-        .appendField(new Blockly.FieldDropdown(
-            Blockly.mbed.Boards.selected.pwmPins), 'PIN')
-        .appendField(Blockly.Msg.MBED_WRITE_TO)
-        .setCheck(Blockly.Types.NUMBER.output);
-    this.setInputsInline(false);
+    this.appendValueInput('PWM_PERIOD')
+      .setCheck(Blockly.Types.NUMBER.checkList)
+      .appendField("Set PWM on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.pwmPins), 'PWM_PIN')
+      .appendField('Period:');
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldDropdown([['us','us'],['ms','ms']]), 'UNIT_PERIOD')    
+      .appendField('Pulse width:');
+    this.appendValueInput('PWM_WIDTH')
+      .setCheck(Blockly.Types.NUMBER.checkList);
+    this.appendDummyInput()
+      .appendField(new Blockly.FieldDropdown([['us','us'],['ms','ms']]), 'UNIT_WIDTH')    
+    this.setInputsInline(true);                
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setTooltip(Blockly.Msg.MBED_ANALOGWRITE_TIP);
+    this.setTooltip("Set PWM output period and pulse width");
   },
-  /**
-   * Updates the content of the the pin related fields.
-   * @this Blockly.Block
-   */
   updateFields: function() {
-    Blockly.mbed.Boards.refreshBlockFieldDropdown(this, 'PIN', 'pwmPins');
-  },
-  /** @return {!string} The type of input value for the block, an integer. */
-  getBlockType: function() {
-    return Blockly.Types.NUMBER;
-  },
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'PWM_PIN', 'pwmPins');
+  }
 };
 
 Blockly.Blocks['io_analogread'] = {

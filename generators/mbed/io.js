@@ -77,35 +77,30 @@ Blockly.mbed['io_builtin_led'] = function(block) {
   return code;
 };
 
-/**
- * Function for setting the state (Y) of an analogue output (X).
- * mbed code: setup { pinMode(X, OUTPUT); }
- *               loop  { analogWrite(X, Y);  }
- * @param {!Blockly.Block} block Block to generate the code from.
- * @return {string} Completed code.
- */
-Blockly.mbed['io_analogwrite'] = function(block) {
-  var pin = block.getFieldValue('PIN');
-  var stateOutput = Blockly.mbed.valueToCode(
-      block, 'NUM', Blockly.mbed.ORDER_ATOMIC) || '0';
-
+Blockly.mbed['io_pwm_set'] = function(block) {
+  var pinKey = block.getFieldValue('PWM_PIN');
+  var pwmPeriod = Blockly.mbed.valueToCode(
+      block, 'PWM_PERIOD', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var pwmPulseWidth = Blockly.mbed.valueToCode(
+      block, 'PWM_WIDTH', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var pwmName = 'myPwm' + pinKey;
+  var unitPeriod = block.getFieldValue('UNIT_PERIOD');
+  var unitPulseWidth = block.getFieldValue('UNIT_WIDTH');
   Blockly.mbed.reservePin(
-      block, pin, Blockly.mbed.PinTypes.OUTPUT, 'Analogue Write');
+      block, pinKey, Blockly.mbed.PinTypes.PWM, 'PWM Write');
 
-  var pinSetupCode = 'pinMode(' + pin + ', OUTPUT);';
-  Blockly.mbed.addSetup('io_' + pin, pinSetupCode, false);
+  //Blockly.mbed.addInclude('pwm', '#include <Servo.h>');
+  Blockly.mbed.addDeclaration('pwm_' + pinKey, 'PwmOut '+pwmName+'(' + pinKey + ');');
 
-  // Warn if the input value is out of range
-  if ((stateOutput < 0) || (stateOutput > 255)) {
-    block.setWarningText('The analogue value set must be between 0 and 255',
-                         'pwm_value');
-  } else {
-    block.setWarningText(null, 'pwm_value');
-  }
+  //var setupCode = pwmName + '.attach(' + pinKey + ');';
+  //Blockly.mbed.addSetup('pwm_' + pinKey, setupCode, true);
 
-  var code = 'analogWrite(' + pin + ', ' + stateOutput + ');\n';
+  var code = '';
+  code = code+pwmName + '.period_'+unitPeriod+'(' + pwmPeriod + ');\n';
+  code = code+pwmName + '.pulsewidth_'+unitPulseWidth+'(' + pwmPulseWidth + ');\n';
   return code;
 };
+
 
 /**
  * Function for reading an analogue pin value (X).
