@@ -299,7 +299,18 @@
         <block type="io_highlow"></block>
       </value>
     </block>
-    <block type="io_pwm_set"></block>
+    <block type="io_pwm_set">
+      <value name="PWM_PERIOD">
+        <block type="math_number">
+          <field name="NUM">10</field>
+        </block>
+      </value>
+      <value name="PWM_WIDTH">
+        <block type="math_number">
+          <field name="NUM">5</field>
+        </block>
+      </value>
+    </block>
     <block type="io_analogread"></block>
     <block type="io_highlow"></block>
     <block type="io_pulsein">
@@ -358,7 +369,21 @@
       </value>      
     </block>
     <block type="servo_read"></block>
-  </category>
+    <block type="stepper_setup"></block>
+    <block type="stepper_rotate">
+      <value name="PERIOD">
+        <block type="math_number">
+          <field name="NUM">1000</field>
+        </block>
+      </value>
+      <value name="STEP">
+        <block type="math_number">
+          <field name="NUM">3600</field>
+        </block>
+      </value>
+    </block>
+    <block type="stepper_wait"></block>
+    </category>
   <sep></sep>
   <category id="catComms" name="Comms">
     <block type="serial_setup"></block>

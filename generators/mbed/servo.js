@@ -71,3 +71,39 @@ Blockly.mbed['servo_read'] = function(block) {
   var code = servoName + '.read()';
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
+
+Blockly.mbed['stepper_setup'] = function(block) {
+  var stepPin = block.getFieldValue('STEP_Pin');
+  var dirPin = block.getFieldValue('DIR_Pin');
+  var enPin = block.getFieldValue('EN_Pin');
+  
+  Blockly.mbed.reservePin(
+    block, stepPin, Blockly.mbed.PinTypes.STEPPER, 'Stepper STEP');
+  Blockly.mbed.reservePin(
+      block, dirPin, Blockly.mbed.PinTypes.STEPPER, 'Stepper DIR');
+  Blockly.mbed.reservePin(
+      block, enPin, Blockly.mbed.PinTypes.STEPPER, 'Stepper EN');
+
+  //Blockly.mbed.addInclude('pwm', '#include <Servo.h>');
+  Blockly.mbed.addDeclaration('stepper' + stepPin, 'Stepper stepper' + stepPin + ' = {' + stepPin + ',' + dirPin + ',' + enPin + ');');
+
+  return '';
+};
+
+Blockly.mbed['stepper_rotate'] = function(block) {
+  var stepPin = block.getFieldValue('STEP_Pin');
+  var period = Blockly.mbed.valueToCode(
+      block, 'PERIOD', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var steps = Blockly.mbed.valueToCode(
+      block, 'STEP', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var unitPeriod = block.getFieldValue('UNIT_PERIOD') === 'us' ? '_us' : '';
+  var code = 'stepper' + stepPin;
+  code = code + '.rotate'+unitPeriod+'(' + period + ', ' + steps + ');\n';
+  return code;
+};
+
+Blockly.mbed['stepper_wait'] = function(block) {
+  var stepPin = block.getFieldValue('STEP_Pin');
+  var code = 'while(stepper' + stepPin + '.remain);\n';
+  return code;
+};
