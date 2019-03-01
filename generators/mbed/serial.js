@@ -129,11 +129,11 @@ Blockly.mbed['serial_attach'] = function(block) {
   var functionName=serialName+'_interrupt_fun';
   var code = returnType + ' ' + functionName + '(' + args.join(', ') + ') {\n' +
       branch + returnValue + '}';
-  code = Blockly.mbed.scrub_(block, code);
+  // code = Blockly.mbed.scrub_(block, code);
   Blockly.mbed.userFunctions_[functionName] = code;  
   
   // TODO: Assemble mbed into code variable.
   
-  code = serialName + '.attach(&' + functionName+');\n';  
-  return code;
+  var attach_code = serialName + '.attach(&' + functionName+');\n';  
+  return attach_code;
 };

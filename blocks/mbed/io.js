@@ -78,6 +78,26 @@ Blockly.Blocks['io_digitalread'] = {
   }
 };
 
+Blockly.Blocks['io_interrupt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'Pin');
+    this.appendDummyInput()
+        .appendField("attach")
+        .appendField(new Blockly.FieldDropdown([["Fall", "fall"], ["Rise", "rise"]]), 'Type')
+        .appendField("interrupt");
+    this.appendStatementInput("function_body")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Blocks.io.HUE);
+    this.setTooltip("attach an interrupt function to digital input");
+    this.setHelpUrl("");
+    this.arguments_ = [];
+  }
+};
+
 Blockly.Blocks['io_builtin_led'] = {
   /**
    * Block for setting built-in LED to a state.

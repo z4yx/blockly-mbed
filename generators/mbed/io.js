@@ -54,6 +54,56 @@ Blockly.mbed['io_digitalread'] = function(block) {
   var code = digitalIn_Name+'.read()';
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
+Blockly.mbed['io_interrupt'] = function(block) {
+  var intrName = 'intr' + block.getFieldValue('Pin');
+  var intrType = block.getFieldValue('Type');
+  var branch = Blockly.mbed.statementToCode(block, 'function_body');
+  
+  if (Blockly.mbed.STATEMENT_PREFIX) {
+    branch = Blockly.mbed.prefixLines(
+        Blockly.mbed.STATEMENT_PREFIX.replace(/%1/g,
+        '\'' + block.id + '\''), Blockly.mbed.INDENT) + branch;
+  }
+  if (Blockly.mbed.INFINITE_LOOP_TRAP) {
+    branch = Blockly.mbed.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'' + block.id + '\'') + branch;
+  }
+  var returnValue = Blockly.mbed.valueToCode(block, 'RETURN',
+      Blockly.mbed.ORDER_NONE) || '';
+  if (returnValue) {
+    returnValue = '  return ' + returnValue + ';\n';
+  }
+
+  // Get arguments with type
+  var args = [];
+  for (var x = 0; x < block.arguments_.length; x++) {
+    args[x] =
+        Blockly.mbed.getmbedType_(block.getArgType(block.arguments_[x])) +
+        ' ' +
+        Blockly.mbed.variableDB_.getName(block.arguments_[x],
+            Blockly.Variables.NAME_TYPE);
+  }
+
+  // Get return type
+  var returnType = Blockly.Types.NULL;
+  if (block.getReturnType) {
+    returnType = block.getReturnType();
+  }
+  returnType = Blockly.mbed.getmbedType_(returnType);
+
+  // Construct code
+  var functionName=intrName+'_interrupt_fun';
+  var code = returnType + ' ' + functionName + '(' + args.join(', ') + ') {\n' +
+      branch + returnValue + '}';
+  // code = Blockly.mbed.scrub_(block, code);
+  Blockly.mbed.userFunctions_[functionName] = code;  
+  
+  // TODO: Assemble mbed into code variable.
+  
+  var attach_code = intrName + '.'+intrType+'(&' + functionName+');\n';  
+  return attach_code;
+};
+
 
 /**
  * Function for setting the state (Y) of a built-in LED (X).
