@@ -139,3 +139,34 @@ Blockly.mbed['sr501_setup'] = function (block) {
     Blockly.mbed.addDeclaration(name, 'sr501 ' + name + '(' + io + ');');
     return "";
 };
+
+Blockly.mbed['analog_o'] = function (block) {
+    var name = 'analog_' + block.getFieldValue('IO');
+    var code;
+    code = name + '.read()';
+    return [code, Blockly.mbed.ORDER_MEMBER];
+};
+
+Blockly.mbed['analog_readable'] = function (block) {
+    var io = this.getFieldValue('IO');
+    var name = 'analog_' + io;
+    var code;
+    code = name + '==true';
+    return [code, Blockly.mbed.ORDER_EQUALITY];
+};
+
+Blockly.mbed['analog_reset'] = function (block) {
+    var io = this.getFieldValue('IO');
+    var name = 'analog_' + io;
+    var code;
+    code = name + '.reset()\n';
+    return code;
+};
+
+Blockly.mbed['analog_setup'] = function (block) {
+    var io = this.getFieldValue('IO');
+    var aio = this.getFieldValue('AIO');
+    var name = 'analog_' + io;
+    Blockly.mbed.addDeclaration(name, 'YL ' + name + '(' + io + ',' + aio + ');');
+    return "";
+};

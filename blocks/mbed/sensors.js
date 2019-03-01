@@ -396,3 +396,32 @@ Blockly.Blocks.sr501_setup = block_setup_digitalPin("SR501");
 Blockly.Blocks.sr501_o = block_read_input("SR501", "Output");
 Blockly.Blocks.sr501_readable = block_value_readable("SR501");
 Blockly.Blocks.sr501_reset = block_value_reset("SR501");
+
+Blockly.Blocks.analog_setup = {
+    init: function () {
+        var sensor_name = "analog";
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField(sensor_name+" on DIO", sensor_name+'_NAME')
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.digitalPins), 'IO');
+        this.appendDummyInput()
+            .appendField("AIO")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.analogPins), 'AIO');
+        this.setInputsInline(true);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(true, null);
+    },
+    updateFields: function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'IO', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'AIO', 'analogPins');
+    },
+};
+Blockly.Blocks.analog_o = block_read_input("analog", "Output");
+Blockly.Blocks.analog_readable = block_value_readable("analog");
+Blockly.Blocks.analog_reset = block_value_reset("analog");
