@@ -42,7 +42,7 @@ Blockly.mbed['serial_print'] = function(block) {
   var checkbox_name = (block.getFieldValue('NEW_LINE') == 'TRUE');
 
   
-  if (checkbox_name) {
+  if (checkbox_name && content[content.length-1]==='"') {
     content=content.slice(0,content.length-1)+'\\n"';
   }
   var code;

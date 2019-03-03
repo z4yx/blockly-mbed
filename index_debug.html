@@ -420,7 +420,11 @@
   <sep></sep>
   <category id="catComms" name="Comms">
     <block type="serial_setup"></block>
-    <block type="serial_print"></block>
+    <block type="serial_print">
+      <value name="CONTENT">
+        <block type="text"></block>
+      </value>
+    </block>
     <block type="serial_getc"></block>    
     <block type="serial_attach"></block>    
     <block type="print_content"></block>    

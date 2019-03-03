@@ -144,7 +144,7 @@ Blockly.Blocks.serial_attach.init = function() {
 Blockly.Blocks.serial_print.init = function() {
     this.setColour(Blockly.Blocks.serial.HUE);
     this.appendValueInput('CONTENT')
-        .setCheck(Blockly.Types.TEXT.checkList)  
+        .setCheck('String')  
         .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'SERIAL_Pins')
         .appendField(Blockly.Msg.MBED_SERIAL_PRINT);
     this.appendValueInput('CONTENT_STR')
