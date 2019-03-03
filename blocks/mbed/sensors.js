@@ -425,3 +425,91 @@ Blockly.Blocks.analog_setup = {
 Blockly.Blocks.analog_o = block_read_input("analog", "Output");
 Blockly.Blocks.analog_readable = block_value_readable("analog");
 Blockly.Blocks.analog_reset = block_value_reset("analog");
+
+function block_jy901_get_val(input_name)
+{
+    var read_value = {};
+    read_value.init = function () {
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("Get "+input_name+" from ")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'JY901_NAME')
+            .appendField(" into ");
+        this.appendValueInput('ARG1');
+        this.appendValueInput('ARG2');
+        this.appendValueInput('ARG3');
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    };
+    read_value.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'JY901_NAME', 'serialPins');
+    };
+    return read_value;
+}
+
+Blockly.Blocks.jy901_setup = {};
+Blockly.Blocks.jy901_receive = {};
+Blockly.Blocks.jy901_getacc = block_jy901_get_val("Accel");
+Blockly.Blocks.jy901_getgyo = block_jy901_get_val("Gyro");
+Blockly.Blocks.jy901_getmag = block_jy901_get_val("Magnetic");
+Blockly.Blocks.jy901_getatt = block_jy901_get_val("Axes");
+
+Blockly.Blocks.jy901_setup.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("JY901 Setup TX:", 'JY901_NAME')
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.serialPinsTX), 'TX')
+        .appendField("RX:")
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.serialPinsRX), 'RX');
+    this.setInputsInline(true);
+    /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+        it is very hard to detect whether the i2c is initialized or not
+    */
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(true, null);
+};
+Blockly.Blocks.jy901_setup.getSetupInstance = function () {
+    return Blockly.mbed.Boards.selected.serialMapper[this.getFieldValue('TX')];
+};
+Blockly.Blocks.jy901_setup.onchange = function () {
+    if (!this.workspace) { return; }  // Block has been deleted.
+
+    //Get the JY901 instance from this block
+    var tx = this.getFieldValue('TX');
+    var rx = this.getFieldValue('RX');
+    var txIns = Blockly.mbed.Boards.selected.serialMapper[tx];
+    var rxIns = Blockly.mbed.Boards.selected.serialMapper[rx];
+    if (txIns == rxIns) {
+        this.setWarningText(null, 'serial_setup');
+        this.setFieldValue('JY901 on %1 Setup TX:'.replace('%1', txIns), 'JY901_NAME');
+    }
+    else {
+        this.setWarningText(txIns + " mismatches " + rxIns, 'serial_setup');
+        this.setFieldValue('JY901 Setup TX', 'JY901_NAME');
+    }
+};
+Blockly.Blocks.jy901_setup.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'TX', 'serialPinsTX');
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'RX', 'serialPinsRX');
+};
+
+Blockly.Blocks.jy901_receive.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Receive from JY901 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'JY901_NAME')
+        this.setPreviousStatement(true);
+    this.setNextStatement(true);
+};
+Blockly.Blocks.jy901_receive.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'JY901_NAME', 'serialPins');
+};

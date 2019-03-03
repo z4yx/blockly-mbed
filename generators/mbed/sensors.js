@@ -129,7 +129,7 @@ Blockly.mbed['sr501_reset'] = function (block) {
     var io = this.getFieldValue('IO');
     var name = 'sr501_' + io;
     var code;
-    code = name + '.reset()\n';
+    code = name + '.reset();\n';
     return code;
 };
 
@@ -159,7 +159,7 @@ Blockly.mbed['analog_reset'] = function (block) {
     var io = this.getFieldValue('IO');
     var name = 'analog_' + io;
     var code;
-    code = name + '.reset()\n';
+    code = name + '.reset();\n';
     return code;
 };
 
@@ -170,3 +170,40 @@ Blockly.mbed['analog_setup'] = function (block) {
     Blockly.mbed.addDeclaration(name, 'YL ' + name + '(' + io + ',' + aio + ');');
     return "";
 };
+
+Blockly.mbed['jy901_setup'] = function (block) {
+    var tx = this.getFieldValue('TX');
+    var rx = this.getFieldValue('RX');
+    var txIns = Blockly.mbed.Boards.selected.serialMapper[tx];
+    var rxIns = Blockly.mbed.Boards.selected.serialMapper[rx];
+    console.assert(txIns == rxIns);
+    var name = 'jy901_' + txIns;
+    Blockly.mbed.addDeclaration(name, 'JY901 ' + name + '(' + tx + ',' + rx + ');');
+    return "";
+};
+
+Blockly.mbed['jy901_receive'] = function (block) {
+    var io = this.getFieldValue('JY901_NAME');
+    var name = 'jy901_' + io;
+    var code;
+    code = name + '.receiveData();\n';
+    return code;
+};
+
+function jy901_get_any(method_name) {
+    return function (block) {
+        var io = this.getFieldValue('JY901_NAME');
+        var arg1 = Blockly.mbed.valueToCode(block,'ARG1',Blockly.mbed.ORDER_COMMA) || 'invalid1';
+        var arg2 = Blockly.mbed.valueToCode(block,'ARG2',Blockly.mbed.ORDER_COMMA) || 'invalid2';
+        var arg3 = Blockly.mbed.valueToCode(block,'ARG3',Blockly.mbed.ORDER_COMMA) || 'invalid3';
+        var name = 'jy901_' + io;
+        var code;
+        code = name + '.' + method_name + '(' + arg1 + ',' + arg2 + ',' + arg3 + ');\n';
+        return code;
+    };
+}
+
+Blockly.mbed['jy901_getacc'] = jy901_get_any('getAcc');
+Blockly.mbed['jy901_getgyo'] = jy901_get_any('getGyo');
+Blockly.mbed['jy901_getmag'] = jy901_get_any('getMag');
+Blockly.mbed['jy901_getatt'] = jy901_get_any('getAttitude');
