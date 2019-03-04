@@ -429,6 +429,27 @@
     <block type="analog_readable"></block>
     <block type="analog_reset"></block>
   </category>
+  <sep></sep>
+  <category id="catFS" name="Filesystem">
+    <block type="sd_fs"></block>
+    <block type="fs_fopen">
+      <value name="PATH">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fprintf">
+      <value name="CONTENT">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fscanf">
+      <value name="CONTENT">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fclose">
+    </block>
+  </category>
 </xml>
  
 </body>

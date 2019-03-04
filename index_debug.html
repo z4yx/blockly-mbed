@@ -25,6 +25,7 @@
   <script src="./blocks/mbed/tone.js"></script>
   <script src="./blocks/mbed/variables.js"></script>
   <script src="./blocks/mbed/macro.js"></script>
+  <script src="./blocks/mbed/filesystem.js"></script>
 
   <script src="./generators/mbed.js"></script>
   <script src="./generators/mbed/boards.js"></script>
@@ -466,6 +467,26 @@
     <block type="analog_readable"></block>
     <block type="analog_reset"></block>
   </category>
+  <sep></sep>
+  <category id="catFS" name="Filesystem">
+    <block type="sd_fs"></block>
+    <block type="fs_fopen">
+      <value name="PATH">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fprintf">
+      <value name="CONTENT">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fscanf">
+      <value name="CONTENT">
+        <block type="text"></block>
+      </value>
+    </block>
+    <block type="fs_fclose">
+    </block>
 </xml>
  
 </body>
