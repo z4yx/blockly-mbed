@@ -399,7 +399,7 @@ Blockly.Blocks.sr501_reset = block_value_reset("SR501");
 
 Blockly.Blocks.analog_setup = {
     init: function () {
-        var sensor_name = "analog";
+        var sensor_name = "GenericAnalog";
         this.setColour(Blockly.Blocks.sensors.HUE);
         this.appendDummyInput()
             .appendField(sensor_name+" on DIO", sensor_name+'_NAME')
@@ -422,9 +422,9 @@ Blockly.Blocks.analog_setup = {
             this, 'AIO', 'analogPins');
     },
 };
-Blockly.Blocks.analog_o = block_read_input("analog", "Output");
-Blockly.Blocks.analog_readable = block_value_readable("analog");
-Blockly.Blocks.analog_reset = block_value_reset("analog");
+Blockly.Blocks.analog_o = block_read_input("GenericAnalog", "Value");
+Blockly.Blocks.analog_readable = block_value_readable("GenericAnalog");
+Blockly.Blocks.analog_reset = block_value_reset("GenericAnalog");
 
 function block_jy901_get_val(input_name)
 {
