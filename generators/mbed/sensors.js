@@ -193,9 +193,9 @@ Blockly.mbed['jy901_receive'] = function (block) {
 function jy901_get_any(method_name) {
     return function (block) {
         var io = this.getFieldValue('JY901_NAME');
-        var arg1 = Blockly.mbed.valueToCode(block,'ARG1',Blockly.mbed.ORDER_COMMA) || 'invalid1';
-        var arg2 = Blockly.mbed.valueToCode(block,'ARG2',Blockly.mbed.ORDER_COMMA) || 'invalid2';
-        var arg3 = Blockly.mbed.valueToCode(block,'ARG3',Blockly.mbed.ORDER_COMMA) || 'invalid3';
+        var arg1 = Blockly.mbed.variableDB_.getName(this.getFieldValue('ARG1'), Blockly.Variables.NAME_TYPE);
+        var arg2 = Blockly.mbed.variableDB_.getName(this.getFieldValue('ARG2'), Blockly.Variables.NAME_TYPE);
+        var arg3 = Blockly.mbed.variableDB_.getName(this.getFieldValue('ARG3'), Blockly.Variables.NAME_TYPE);
         var name = 'jy901_' + io;
         var code;
         code = name + '.' + method_name + '(' + arg1 + ',' + arg2 + ',' + arg3 + ');\n';

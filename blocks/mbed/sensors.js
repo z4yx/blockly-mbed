@@ -434,10 +434,10 @@ function block_jy901_get_val(input_name)
         this.appendDummyInput()
             .appendField("Get "+input_name+" from ")
             .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'JY901_NAME')
-            .appendField(" into ");
-        this.appendValueInput('ARG1');
-        this.appendValueInput('ARG2');
-        this.appendValueInput('ARG3');
+            .appendField(" into ")
+            .appendField(new Blockly.FieldVariable('x'), 'ARG1')
+            .appendField(new Blockly.FieldVariable('y'), 'ARG2')
+            .appendField(new Blockly.FieldVariable('z'), 'ARG3');
         this.setInputsInline(true);
         this.setPreviousStatement(true);
         this.setNextStatement(true);
