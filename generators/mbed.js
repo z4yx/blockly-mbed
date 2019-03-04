@@ -433,13 +433,13 @@ Blockly.mbed.getAdjusted = function(block, atId, opt_delta, opt_negate,
   var defaultAtIndex = block.workspace.options.oneBasedIndex ? '1' : '0';
   if (delta > 0) {
     var at = Blockly.mbed.valueToCode(block, atId,
-        Blockly.mbed.ORDER_ADDITION) || defaultAtIndex;
+        Blockly.mbed.ORDER_ADDITIVE) || defaultAtIndex;
   } else if (delta < 0) {
     var at = Blockly.mbed.valueToCode(block, atId,
-        Blockly.mbed.ORDER_SUBTRACTION) || defaultAtIndex;
+        Blockly.mbed.ORDER_ADDITIVE) || defaultAtIndex;
   } else if (opt_negate) {
     var at = Blockly.mbed.valueToCode(block, atId,
-        Blockly.mbed.ORDER_UNARY_NEGATION) || defaultAtIndex;
+        Blockly.mbed.ORDER_UNARY_PREFIX) || defaultAtIndex;
   } else {
     var at = Blockly.mbed.valueToCode(block, atId, order) ||
         defaultAtIndex;
@@ -455,10 +455,10 @@ Blockly.mbed.getAdjusted = function(block, atId, opt_delta, opt_negate,
     // If the index is dynamic, adjust it in code.
     if (delta > 0) {
       at = at + ' + ' + delta;
-      var innerOrder = Blockly.mbed.ORDER_ADDITION;
+      var innerOrder = Blockly.mbed.ORDER_ADDITIVE;
     } else if (delta < 0) {
       at = at + ' - ' + -delta;
-      var innerOrder = Blockly.mbed.ORDER_SUBTRACTION;
+      var innerOrder = Blockly.mbed.ORDER_ADDITIVE;
     }
     if (opt_negate) {
       if (delta) {
@@ -466,7 +466,7 @@ Blockly.mbed.getAdjusted = function(block, atId, opt_delta, opt_negate,
       } else {
         at = '-' + at;
       }
-      var innerOrder = Blockly.mbed.ORDER_UNARY_NEGATION;
+      var innerOrder = Blockly.mbed.ORDER_UNARY_PREFIX;
     }
     innerOrder = Math.floor(innerOrder);
     order = Math.floor(order);
