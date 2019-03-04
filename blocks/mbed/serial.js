@@ -106,6 +106,96 @@ Blockly.Blocks.serial_setup.updateFields = function() {
     Blockly.mbed.Boards.refreshBlockFieldDropdown(
         this, 'SPEED', 'serialSpeed');
 };
+
+Blockly.Blocks.pn532_setup = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendDummyInput()
+            .appendField("PN532 RX:",'SERIAL_NAME')
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.serialPinsRX), 'SERIAL_ID')
+            .appendField("TX:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.serialPinsTX), 'SERIAL_ID_TX');
+        this.setInputsInline(true);
+        /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+            it is very hard to detect whether the serial is initialized or not
+        */
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(true, null);    
+        this.setTooltip(Blockly.Msg.MBED_SERIAL_SETUP_TIP);
+    },
+    getSerialSetupInstance: function() {
+        return Blockly.mbed.Boards.selected.serialMapper[this.getFieldValue('SERIAL_ID')];
+    },
+    onchange: function() {
+        if (!this.workspace) { return; }  // Block has been deleted.
+    
+        //Get the Serial instance from this block
+        var serialId = this.getFieldValue('SERIAL_ID');
+        var serialId_TX = this.getFieldValue('SERIAL_ID_TX');
+        var serialRX = Blockly.mbed.Boards.selected.serialMapper[serialId];
+        var serialTX = Blockly.mbed.Boards.selected.serialMapper[serialId_TX];
+        if(serialRX == serialTX){
+           this.setWarningText(null,'serial_rx_tx_mismatch');
+           this.setFieldValue('PN532 on %1 RX:'.replace('%1',serialRX),'SERIAL_NAME');       
+        }
+        else{
+           this.setWarningText(serialRX+" mismatches "+serialTX,'serial_rx_tx_mismatch');
+           this.setFieldValue('PN532 RX:','SERIAL_NAME');              
+        }
+    },
+    updateFields: function() {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'SERIAL_ID', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'SERIAL_ID_TX', 'digitalPins');
+    },
+};
+
+Blockly.Blocks.pn532_wait_card = {
+    init: function() {
+        this.setOutput(true, null);
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendDummyInput()
+            .appendField("Card detected by PN532 on")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'SERIAL_Pins');
+        this.appendDummyInput()
+            .appendField("Timeout in")
+            .appendField(new Blockly.FieldNumber(200), 'TIMEOUT')
+            .appendField("ms");
+        this.setInputsInline(false);
+    },
+    updateFields: function() {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'SERIAL_Pins', 'serialPins');
+    },
+};
+
+function gen_pn532_read(read_what){
+    return {
+        init: function() {
+            this.setOutput(true, null);
+            this.setColour(Blockly.Blocks.serial.HUE);
+            this.appendDummyInput()
+                .appendField("PN532 on")
+                .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'SERIAL_Pins');
+            this.appendDummyInput()
+                .appendField("Read \"" + read_what + "\" from card");
+            this.setInputsInline(false);
+        },
+        updateFields: function() {
+            Blockly.mbed.Boards.refreshBlockFieldDropdown(
+                this, 'SERIAL_Pins', 'serialPins');
+        },
+    };
+}
+
+Blockly.Blocks.pn532_read_user = gen_pn532_read('user');
+Blockly.Blocks.pn532_read_passwd = gen_pn532_read('password');
+
 Blockly.Blocks.print_content.init = function() {
     this.appendValueInput("format_content")
         .setCheck(null);

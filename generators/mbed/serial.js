@@ -137,3 +137,42 @@ Blockly.mbed['serial_attach'] = function(block) {
   var attach_code = serialName + '.attach(&' + functionName+');\n';  
   return attach_code;
 };
+
+Blockly.mbed['pn532_setup'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_ID');
+  var serialId_TX = block.getFieldValue('SERIAL_ID_TX');
+  var serialRX=Blockly.mbed.Boards.selected.serialMapper[serialId];
+  var serialTX=Blockly.mbed.Boards.selected.serialMapper[serialId_TX];
+      
+  console.assert(serialRX==serialTX);
+  var hsuName = 'pn_hsu_' + serialId;
+  var pn532Name = 'pn532_' + serialId;
+  Blockly.mbed.addDeclaration(hsuName, 'Serial '+hsuName+'(' + serialId_TX+','+serialId + ',115200);');
+  Blockly.mbed.addDeclaration(pn532Name, 'PN532Checker '+pn532Name+'(&' + hsuName + ');');
+  return '';
+};
+
+Blockly.mbed['pn532_wait_card'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_Pins');
+  var timeo = block.getFieldValue('TIMEOUT') || '100';
+  var pn532Name = 'pn532_' + serialId;
+  var code;
+  code = pn532Name + '.start_check(' + timeo + ')';  
+  return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
+};
+
+Blockly.mbed['pn532_read_user'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_Pins');
+  var pn532Name = 'pn532_' + serialId;
+  var code;
+  code = pn532Name + '.get_userid()';  
+  return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
+};
+
+Blockly.mbed['pn532_read_passwd'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_Pins');
+  var pn532Name = 'pn532_' + serialId;
+  var code;
+  code = pn532Name + '.get_passwd()';  
+  return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
+};
