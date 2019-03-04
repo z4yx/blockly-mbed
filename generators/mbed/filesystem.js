@@ -29,7 +29,7 @@ Blockly.mbed['sd_fs'] = function (block) {
 
 Blockly.mbed['fs_fopen'] = function (block) {
     var path = Blockly.mbed.valueToCode(
-        block, 'PATH', Blockly.mbed.ORDER_ATOMIC);
+        block, 'PATH', Blockly.mbed.ORDER_NONE);
     var fp = Blockly.mbed.variableDB_.getName(this.getFieldValue('FILE'), Blockly.Variables.NAME_TYPE);
     var mode = this.getFieldValue('MODE');
     return fp + ' = fopen(' + path + ', "' + mode + '");\n';
@@ -38,8 +38,8 @@ Blockly.mbed['fs_fopen'] = function (block) {
 Blockly.mbed['fs_fscanf'] = function (block) {
     var fp = Blockly.mbed.variableDB_.getName(this.getFieldValue('FILE'), Blockly.Variables.NAME_TYPE);
     var content = Blockly.mbed.valueToCode(
-        block, 'CONTENT', Blockly.mbed.ORDER_ATOMIC) || '0';
-    var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_ATOMIC) || '';      
+        block, 'CONTENT', Blockly.mbed.ORDER_NONE) || '0';
+    var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_NONE) || '';      
 
     var code;
     if(content_str){
@@ -53,8 +53,8 @@ Blockly.mbed['fs_fscanf'] = function (block) {
 Blockly.mbed['fs_fprintf'] = function(block) {
     var fp = Blockly.mbed.variableDB_.getName(this.getFieldValue('FILE'), Blockly.Variables.NAME_TYPE);
     var content = Blockly.mbed.valueToCode(
-        block, 'CONTENT', Blockly.mbed.ORDER_ATOMIC) || '0';
-    var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_ATOMIC) || '';      
+        block, 'CONTENT', Blockly.mbed.ORDER_NONE) || '0';
+    var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_NONE) || '';      
     var checkbox_name = (block.getFieldValue('NEW_LINE') == 'TRUE');
     
     if (checkbox_name && content[content.length-1]==='"') {

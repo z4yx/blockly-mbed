@@ -17,16 +17,15 @@ goog.provide('Blockly.mbed.serial');
 goog.require('Blockly.mbed');
 
 Blockly.mbed['print_content'] = function(block) {
-  var format_content = Blockly.mbed.valueToCode(block, 'format_content', Blockly.mbed.ORDER_ATOMIC);
-  var join_content = Blockly.mbed.valueToCode(block, 'join_content', Blockly.mbed.ORDER_ATOMIC) || '';
+  var format_content = Blockly.mbed.valueToCode(block, 'format_content', Blockly.mbed.ORDER_COMMA);
+  var join_content = Blockly.mbed.valueToCode(block, 'join_content', Blockly.mbed.ORDER_COMMA) || '';
   // TODO: Assemble mbed into code variable.
   var code;
   if(join_content)  
      code = format_content+','+join_content;
   else
      code = format_content;
-  // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.mbed.ORDER_ATOMIC];
+  return [code, Blockly.mbed.ORDER_COMMA];
 };
 /**
  * Code generator of block for writing to the serial com.
@@ -37,8 +36,8 @@ Blockly.mbed['print_content'] = function(block) {
 Blockly.mbed['serial_print'] = function(block) {
   var serialName = block.getFieldValue('SERIAL_Pins');
   var content = Blockly.mbed.valueToCode(
-      block, 'CONTENT', Blockly.mbed.ORDER_ATOMIC) || '0';
-  var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_ATOMIC) || '';      
+      block, 'CONTENT', Blockly.mbed.ORDER_NONE) || '0';
+  var content_str = Blockly.mbed.valueToCode(block, 'CONTENT_STR', Blockly.mbed.ORDER_NONE) || '';      
   var checkbox_name = (block.getFieldValue('NEW_LINE') == 'TRUE');
 
   
@@ -60,7 +59,7 @@ Blockly.mbed['serial_getc'] = function(block) {
     var serialName = block.getFieldValue('SERIAL_Pins');
     var code;
     code = serialName + '.getc()';  
-    return [code, Blockly.mbed.ORDER_ATOMIC];
+    return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
 };    
 /**
  * Code generator for block for setting the serial com speed.
