@@ -25,7 +25,7 @@ Blockly.mbed['print_content'] = function(block) {
      code = format_content+','+join_content;
   else
      code = format_content;
-  return [code, Blockly.mbed.ORDER_COMMA];
+  return [code, Blockly.mbed.ORDER_ATOMIC];
 };
 /**
  * Code generator of block for writing to the serial com.
