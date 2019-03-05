@@ -49,7 +49,7 @@ Blockly.Blocks.sd_fs = {
             it is very hard to detect whether the i2c is initialized or not
         */
         this.setPreviousStatement(false, null);
-        this.setNextStatement(true, null);
+        this.setNextStatement(false, null);
     },
 };
 

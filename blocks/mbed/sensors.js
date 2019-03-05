@@ -37,7 +37,7 @@ Blockly.Blocks.bh1750_setup.init = function () {
         it is very hard to detect whether the i2c is initialized or not
     */
     this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);
+    this.setNextStatement(false, null);
 };
 /**
  * Returns the i2c instance name.
@@ -154,7 +154,7 @@ Blockly.Blocks.bmp180_setup.init = function () {
         it is very hard to detect whether the i2c is initialized or not
     */
     this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);
+    this.setNextStatement(false, null);
 };
 /**
  * Returns the i2c instance name.
@@ -318,7 +318,7 @@ function block_setup_digitalPin(sensor_name)
                     Blockly.mbed.Boards.selected.digitalPins), 'IO');
         this.setInputsInline(true);
         this.setPreviousStatement(false, null);
-        this.setNextStatement(true, null);
+        this.setNextStatement(false, null);
     };
     setup.updateFields = function () {
         Blockly.mbed.Boards.refreshBlockFieldDropdown(
@@ -413,7 +413,7 @@ Blockly.Blocks.analog_setup = {
                     Blockly.mbed.Boards.selected.analogPins), 'AIO');
         this.setInputsInline(true);
         this.setPreviousStatement(false, null);
-        this.setNextStatement(true, null);
+        this.setNextStatement(false, null);
     },
     updateFields: function () {
         Blockly.mbed.Boards.refreshBlockFieldDropdown(
@@ -478,7 +478,7 @@ Blockly.Blocks.jy901_setup.init = function () {
         it is very hard to detect whether the i2c is initialized or not
     */
     this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);
+    this.setNextStatement(false, null);
 };
 Blockly.Blocks.jy901_setup.getSetupInstance = function () {
     return Blockly.mbed.Boards.selected.serialMapper[this.getFieldValue('TX')];

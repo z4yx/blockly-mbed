@@ -64,7 +64,7 @@ Blockly.Blocks.serial_setup.init = function() {
         it is very hard to detect whether the serial is initialized or not
     */
     this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);    
+    this.setNextStatement(false, null);    
     this.setTooltip(Blockly.Msg.MBED_SERIAL_SETUP_TIP);
 };
 /**
@@ -124,7 +124,7 @@ Blockly.Blocks.pn532_setup = {
             it is very hard to detect whether the serial is initialized or not
         */
         this.setPreviousStatement(false, null);
-        this.setNextStatement(true, null);    
+        this.setNextStatement(false, null);    
         this.setTooltip(Blockly.Msg.MBED_SERIAL_SETUP_TIP);
     },
     getSerialSetupInstance: function() {

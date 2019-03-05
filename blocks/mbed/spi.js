@@ -51,8 +51,8 @@ Blockly.Blocks['spi_setup'] = {
                  [Blockly.Msg.MBED_SPI_SETUP_MODE3, '3']]),
             'SPI_MODE');
     this.setInputsInline(false);    
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);    
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(false, null);    
     this.setTooltip(Blockly.Msg.MBED_SPI_SETUP_TIP);
   },
   /**
