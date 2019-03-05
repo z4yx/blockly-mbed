@@ -254,7 +254,7 @@ Blockly.mbed['math_number_property'] = function(block) {
 Blockly.mbed['math_change'] = function(block) {
   var argument0 = Blockly.mbed.valueToCode(block, 'DELTA',
       Blockly.mbed.ORDER_ADDITIVE) || '0';
-  var varName = Blockly.mbed.variableDB_.getName(
+  var varName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' += ' + argument0 + ';\n';
 };

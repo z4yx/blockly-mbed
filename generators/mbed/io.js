@@ -80,7 +80,7 @@ Blockly.mbed['io_interrupt'] = function(block) {
     args[x] =
         Blockly.mbed.getmbedType_(block.getArgType(block.arguments_[x])) +
         ' ' +
-        Blockly.mbed.variableDB_.getName(block.arguments_[x],
+        Blockly.mbed.getVariableName(block, block.arguments_[x],
             Blockly.Variables.NAME_TYPE);
   }
 

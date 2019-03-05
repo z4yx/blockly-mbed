@@ -121,11 +121,11 @@ Blockly.mbed.init = function(workspace) {
   Blockly.mbed.StaticTyping.setProcedureArgs(workspace, varsWithTypes);
 
   // Set variable declarations with their mbed type in the defines dictionary
-  for (var varName in varsWithTypes) {
-    Blockly.mbed.addVariable(varName,
-        Blockly.mbed.getmbedType_(varsWithTypes[varName]) +' ' +
-        Blockly.mbed.variableDB_.getName(varName, Blockly.Variables.NAME_TYPE) + ';');
-  }
+  // for (var varName in varsWithTypes) {
+  //   Blockly.mbed.addVariable(varName,
+  //       Blockly.mbed.getmbedType_(varsWithTypes[varName]) +' ' +
+  //       Blockly.mbed.variableDB_.getName(varName, Blockly.Variables.NAME_TYPE) + ';');
+  // }
 };
 
 /**
@@ -405,6 +405,10 @@ Blockly.mbed.getmbedType_ = function(typeBlockly) {
       return 'Invalid Blockly Type';
     }
 };
+
+Blockly.mbed.getVariableName = function(block, varID, OBSOLETE) {
+  return block.workspace.getVariableById(varID).name;
+}
 
 /** Used for not-yet-implemented block code generators */
 Blockly.mbed.noGeneratorCodeInline = function() {

@@ -75,7 +75,7 @@ Blockly.mbed['text_join'] = function(block) {
  */
 Blockly.mbed['text_append'] = function(block) {
   // Append to a variable in place.
-  var varName = Blockly.mbed.variableDB_.getName(
+  var varName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   var argument0 = Blockly.mbed.valueToCode(block, 'TEXT',
       Blockly.mbed.ORDER_UNARY_POSTFIX);

@@ -21,7 +21,7 @@ Blockly.mbed['lists_create_empty'] = Blockly.mbed.noGeneratorCodeInline;
 Blockly.mbed['lists_create_with'] = function(block) {
 //  Create a list with any number of elements of any type.
   // var elements = new Array(block.itemCount_);
-  // var variable_list_name = Blockly.mbed.variableDB_.getName(block.getFieldValue('list_name'), Blockly.Variables.NAME_TYPE);
+  // var variable_list_name = Blockly.mbed.getVariableName(block, block.getFieldValue('list_name'), Blockly.Variables.NAME_TYPE);
 //  initialize an array with identifier as variable_list_name, with type as ___, with length as block.itemCount_
   
   // for (var i = 0; i < block.itemCount_; i++) {

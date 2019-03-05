@@ -93,7 +93,7 @@ Blockly.mbed['controls_whileUntil'] = function(block) {
  * @return {string} Completed code.
  */
 Blockly.mbed['controls_for'] = function(block) {
-  var variable0 = Blockly.mbed.variableDB_.getName(
+  var variable0 = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   var argument0 = Blockly.mbed.valueToCode(block, 'FROM',
       Blockly.mbed.ORDER_ASSIGNMENT) || '0';

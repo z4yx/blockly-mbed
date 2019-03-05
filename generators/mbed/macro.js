@@ -20,7 +20,7 @@ goog.require('Blockly.mbed');
  * @return {array} Completed code with order of operation.
  */
 Blockly.mbed['macro_get'] = function(block) {
-  var code = Blockly.mbed.variableDB_.getName(block.getFieldValue('MACRO_NAME'),
+  var code = Blockly.mbed.getVariableName(block, block.getFieldValue('MACRO_NAME'),
       Blockly.Macro.NAME_TYPE);
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
@@ -35,7 +35,7 @@ Blockly.mbed['macro_get'] = function(block) {
 Blockly.mbed['macro_define'] = function(block) {
   var argument0 = Blockly.mbed.valueToCode(block, 'MACRO_DEFINE_AS',
       Blockly.mbed.ORDER_ASSIGNMENT) || '0';
-  var varName = Blockly.mbed.variableDB_.getName(
+  var varName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('MACRO_NAME'), Blockly.Macro.NAME_TYPE);
   Blockly.mbed.addDeclaration(varName,'#define '+varName+' '+argument0);
   return '';

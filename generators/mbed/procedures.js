@@ -23,7 +23,7 @@ goog.require('Blockly.mbed');
  * @return {null} There is no code added to loop.
  */
 Blockly.mbed['procedures_defreturn'] = function(block) {
-  var funcName = Blockly.mbed.variableDB_.getName(
+  var funcName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
   var branch = Blockly.mbed.statementToCode(block, 'STACK');
   var bindPin = block.getFieldValue('InterruptPin') || '';
@@ -54,7 +54,7 @@ Blockly.mbed['procedures_defreturn'] = function(block) {
     args[x] =
         Blockly.mbed.getmbedType_(block.getArgType(block.arguments_[x])) +
         ' ' +
-        Blockly.mbed.variableDB_.getName(block.arguments_[x],
+        Blockly.mbed.getVariableName(block, block.arguments_[x],
             Blockly.Variables.NAME_TYPE);
   }
 
@@ -89,7 +89,7 @@ Blockly.mbed['InterruptIn']=Blockly.mbed['procedures_defreturn'];
  * @return {array} Completed code with order of operation.
  */
 Blockly.mbed['procedures_callreturn'] = function(block) {
-  var funcName = Blockly.mbed.variableDB_.getName(
+  var funcName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
@@ -107,7 +107,7 @@ Blockly.mbed['procedures_callreturn'] = function(block) {
  * @return {string} Completed code.
  */
 Blockly.mbed['procedures_callnoreturn'] = function(block) {
-  var funcName = Blockly.mbed.variableDB_.getName(
+  var funcName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {

@@ -20,7 +20,7 @@ goog.require('Blockly.mbed');
  * @return {array} Completed code with order of operation.
  */
 Blockly.mbed['variables_get'] = function(block) {
-  var code = Blockly.mbed.variableDB_.getName(block.getFieldValue('VAR'),
+  var code = Blockly.mbed.getVariableName(block, block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
@@ -35,7 +35,7 @@ Blockly.mbed['variables_get'] = function(block) {
 Blockly.mbed['variables_set'] = function(block) {
   var argument0 = Blockly.mbed.valueToCode(block, 'VALUE',
       Blockly.mbed.ORDER_ASSIGNMENT) || '0';
-  var varName = Blockly.mbed.variableDB_.getName(
+  var varName = Blockly.mbed.getVariableName(block, 
       block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
   return varName + ' = ' + argument0 + ';\n';
 };

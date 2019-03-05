@@ -46,8 +46,7 @@ Blockly.mbed['gcode_cb_setpos'] = function (block) {
     // Get arguments with type
     var args = [];
     for (var x = 0; x < block.arguments_.length; x++) {
-        var name = Blockly.mbed.variableDB_.getName(block.arguments_[x],
-            Blockly.Variables.NAME_TYPE);
+        var name = block.arguments_[x];
         args[x] = Blockly.mbed.getmbedType_(block.argumentsType_[x]);
         if (block.argumentsType_[x].typeId === Blockly.Types.ARRAY.typeId)
             args[x] = args[x].replace(/\[/, name + '[');
