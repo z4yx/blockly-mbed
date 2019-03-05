@@ -26,6 +26,7 @@
   <script src="./blocks/mbed/variables.js"></script>
   <script src="./blocks/mbed/macro.js"></script>
   <script src="./blocks/mbed/filesystem.js"></script>
+  <script src="./blocks/mbed/parser.js"></script>
 
   <script src="./generators/mbed.js"></script>
   <script src="./generators/mbed/boards.js"></script>
@@ -46,6 +47,7 @@
   <script src="./generators/mbed/variables.js"></script>
   <script src="./generators/mbed/macro.js"></script>
   <script src="./generators/mbed/filesystem.js"></script>
+  <script src="./generators/mbed/parser.js"></script>
 
   <script type="text/javascript" src="spin.js"></script>
   <script type="text/javascript" src="base64.js"></script>
@@ -496,6 +498,15 @@
     </block>
     <block type="fs_fclose">
     </block>
+  </category>
+  <sep></sep>
+  <category id="catParser" name="Parsers">
+    <block type="gcode_cb_home"></block>
+    <block type="gcode_cb_absmove"></block>
+    <block type="gcode_cb_setpos"></block>
+    <block type="gcode_init"></block>
+    <block type="gcode_parse"></block>
+  </category>
 </xml>
  
 </body>
