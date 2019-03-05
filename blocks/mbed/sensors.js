@@ -446,6 +446,12 @@ function block_jy901_get_val(input_name)
         Blockly.mbed.Boards.refreshBlockFieldDropdown(
             this, 'JY901_NAME', 'serialPins');
     };
+    read_value.getVars = function () {
+        return [this.getFieldValue('ARG1'), this.getFieldValue('ARG2'), this.getFieldValue('ARG3')];
+    };
+    read_value.getVarType = function (varName) {
+        return Blockly.Types.DECIMAL;
+    };
     return read_value;
 }
 

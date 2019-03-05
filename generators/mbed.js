@@ -14,6 +14,7 @@ goog.provide('Blockly.mbed');
 
 goog.require('Blockly.Generator');
 goog.require('Blockly.StaticTyping');
+goog.require('Blockly.Blocks.filesystem');
 
 
 /**
@@ -121,11 +122,11 @@ Blockly.mbed.init = function(workspace) {
   Blockly.mbed.StaticTyping.setProcedureArgs(workspace, varsWithTypes);
 
   // Set variable declarations with their mbed type in the defines dictionary
-  // for (var varName in varsWithTypes) {
-  //   Blockly.mbed.addVariable(varName,
-  //       Blockly.mbed.getmbedType_(varsWithTypes[varName]) +' ' +
-  //       Blockly.mbed.variableDB_.getName(varName, Blockly.Variables.NAME_TYPE) + ';');
-  // }
+  for (var varName in varsWithTypes) {
+    Blockly.mbed.addVariable(varName,
+        Blockly.mbed.getmbedType_(varsWithTypes[varName]) +' ' +
+        workspace.getVariableById(varName).name + ';');
+  }
 };
 
 /**
@@ -397,10 +398,12 @@ Blockly.mbed.getmbedType_ = function(typeBlockly) {
       // If no block connected default to int, change for easier debugging
       //return 'ChildBlockMissing';
       return 'int';
-    case "Array":
+    case Blockly.Types.ARRAY.typeId:
       return Blockly.mbed.getmbedType_(typeBlockly.typeAtom)+' ['+typeBlockly.typeLength+']'+' '+typeBlockly.typeContent; 
-    case "DigitalOut":
+    case Blockly.Types.DigitalOut.typeId:
       return Blockly.Types.DigitalOut.typeId;
+    case Blockly.Blocks.filesystem.FilePointer.typeId:
+      return 'FILE*';
     default:
       return 'Invalid Blockly Type';
     }

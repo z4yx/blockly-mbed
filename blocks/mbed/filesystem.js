@@ -17,6 +17,11 @@ goog.require('Blockly.Types');
 
 /** Common HSV hue for all blocks in this category. */
 Blockly.Blocks.filesystem.HUE = 20;
+Blockly.Blocks.filesystem.FilePointer = new Blockly.Type({
+  typeId: 'FILE',
+  typeMsgName: 'MBED_TYPE_FILE',
+  compatibleTypes: []
+});
 
 Blockly.Blocks.sd_fs = {
     init: function(){
@@ -64,6 +69,12 @@ Blockly.Blocks.fs_fopen = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
     },
+    getVars: function () {
+        return [this.getFieldValue('FILE')];
+    },
+    getVarType: function (varName) {
+        return Blockly.Blocks.filesystem.FilePointer;
+    },
 };
 
 Blockly.Blocks.fs_fprintf = {
@@ -84,6 +95,12 @@ Blockly.Blocks.fs_fprintf = {
         this.setNextStatement(true, null);
         this.setTooltip(Blockly.Msg.MBED_SERIAL_PRINT_TIP);    
     },
+    getVars: function () {
+        return [this.getFieldValue('FILE')];
+    },
+    getVarType: function (varName) {
+        return Blockly.Blocks.filesystem.FilePointer;
+    },
 };
 
 Blockly.Blocks.fs_fscanf = {
@@ -102,6 +119,12 @@ Blockly.Blocks.fs_fscanf = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
     },
+    getVars: function () {
+        return [this.getFieldValue('FILE')];
+    },
+    getVarType: function (varName) {
+        return Blockly.Blocks.filesystem.FilePointer;
+    },
 };
 
 Blockly.Blocks.fs_fclose = {
@@ -113,5 +136,11 @@ Blockly.Blocks.fs_fclose = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
+    },
+    getVars: function () {
+        return [this.getFieldValue('FILE')];
+    },
+    getVarType: function (varName) {
+        return Blockly.Blocks.filesystem.FilePointer;
     },
 };

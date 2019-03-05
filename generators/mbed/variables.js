@@ -13,6 +13,10 @@ goog.provide('Blockly.mbed.variables');
 goog.require('Blockly.mbed');
 
 
+Blockly.mbed['variables_declare'] = function(block) {
+  return '';
+};
+
 /**
  * Code generator for variable (X) getter.
  * mbed code: loop { X }
