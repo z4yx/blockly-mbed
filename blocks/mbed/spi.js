@@ -229,3 +229,84 @@ Blockly.Blocks['spi_transfer_return'] = {
   /** Same as spi_transfer block */
   updateFields: Blockly.Blocks['spi_transfer'].updateFields
 };
+
+Blockly.Blocks.nrf24_setup = {
+  init: function(){
+      this.setColour(Blockly.Blocks.spi.HUE);
+      // mosi, miso, sck, csn, ce, irq
+      this.appendDummyInput()
+          .appendField("nRF24L01 Setup: MOSI")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+          .appendField("MISO")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'MISO');
+      this.appendDummyInput()
+          .appendField("SCK")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'SCK')
+          .appendField("CSn")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'CS')
+          .appendField("CE")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'CE')
+          .appendField("IRQ")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'IRQ');
+      this.appendDummyInput()
+          .appendField("Message size")
+          .appendField(new Blockly.FieldNumber(4, 1, 32), 'SIZE');
+
+      this.setInputsInline(false);
+      /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+          it is very hard to detect whether the i2c is initialized or not
+      */
+      this.setPreviousStatement(false, null);
+      this.setNextStatement(false, null);
+  },
+};
+
+Blockly.Blocks.nrf24_readable = {
+  init: function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.appendDummyInput()
+        .appendField("nRF24L01 on")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+        .appendField("is readable");
+    this.setInputsInline(false);
+  },
+};
+
+Blockly.Blocks.nrf24_read = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+        .appendField("nRF24L01 on")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+        .appendField("receive data")
+        .appendField(new Blockly.FieldVariable('buf'), 'BUF');
+  },
+};
+
+Blockly.Blocks.nrf24_write = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+        .appendField("nRF24L01 on")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+        .appendField("send data")
+        .appendField(new Blockly.FieldVariable('buf'), 'BUF');
+  },
+};

@@ -21,7 +21,7 @@ Blockly.mbed['sd_fs'] = function (block) {
     var mosi = this.getFieldValue('MOSI');
     var miso = this.getFieldValue('MISO');
     var sck = this.getFieldValue('SCK');
-    var cs = this.getFieldValue('MISO');
+    var cs = this.getFieldValue('CS');
     var name = 'sd_' + mosi;
     Blockly.mbed.addDeclaration(name, 'SDFileSystem ' + name + '(' + mosi + ',' + miso + ',' + sck + ',' + cs + ',' + '"sd"' + ');');
     return "";

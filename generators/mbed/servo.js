@@ -85,7 +85,7 @@ Blockly.mbed['stepper_setup'] = function(block) {
       block, enPin, Blockly.mbed.PinTypes.STEPPER, 'Stepper EN');
 
   //Blockly.mbed.addInclude('pwm', '#include <Servo.h>');
-  Blockly.mbed.addDeclaration('stepper' + stepPin, 'Stepper stepper' + stepPin + ' = {' + stepPin + ',' + dirPin + ',' + enPin + ');');
+  Blockly.mbed.addDeclaration('stepper' + stepPin, 'Stepper stepper' + stepPin + ' = {' + stepPin + ',' + dirPin + ',' + enPin + '};');
 
   return '';
 };

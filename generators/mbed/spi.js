@@ -123,3 +123,47 @@ Blockly.mbed['spi_transfer_return'] = function(block) {
   }
   return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
 };
+
+Blockly.mbed['nrf24_setup'] = function (block) {
+  var mosi = this.getFieldValue('MOSI');
+  var miso = this.getFieldValue('MISO');
+  var sck = this.getFieldValue('SCK');
+  var cs = this.getFieldValue('CS');
+  var ce = this.getFieldValue('CE');
+  var irq = this.getFieldValue('IRQ');
+  var size = this.getFieldValue('SIZE');
+  var name = 'nrf24_' + mosi;
+  var macroSize = 'NRF24_TRANSFER_SIZE';
+  Blockly.mbed.addDeclaration(macroSize,'#define '+macroSize+' '+size);
+  Blockly.mbed.addDeclaration(name, 'nRF24L01P ' + name + '(' + mosi + ',' + miso + ',' + sck + ',' + cs + ',' + ce + ',' + irq + ');');
+  return name + '.powerUp();\n' +
+        name + '.setTransferSize( '+ macroSize + ' );\n' +
+        name + '.setReceiveMode();\n' +
+        name + '.enable();\n';
+};
+
+Blockly.mbed['nrf24_readable'] = function (block) {
+  var mosi = this.getFieldValue('MOSI');
+  var name = 'nrf24_' + mosi;
+  var code;
+  code = name + '.readable()';
+  return [code, Blockly.mbed.ORDER_MEMBER];
+};
+
+Blockly.mbed['nrf24_read'] = function (block) {
+  var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
+  var mosi = this.getFieldValue('MOSI');
+  var name = 'nrf24_' + mosi;
+  var code;
+  code = name + '.read( NRF24L01P_PIPE_P0, ' + buf + ', NRF24_TRANSFER_SIZE);\n';
+  return code;
+};
+
+Blockly.mbed['nrf24_write'] = function (block) {
+  var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
+  var mosi = this.getFieldValue('MOSI');
+  var name = 'nrf24_' + mosi;
+  var code;
+  code = name + '.write( NRF24L01P_PIPE_P0, ' + buf + ', NRF24_TRANSFER_SIZE);\n';
+  return code;
+};
