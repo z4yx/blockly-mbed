@@ -175,3 +175,45 @@ Blockly.mbed['pn532_read_passwd'] = function(block) {
   code = pn532Name + '.get_passwd()';  
   return [code, Blockly.mbed.ORDER_UNARY_POSTFIX];
 };
+
+function esp8266_build_sensors_actuators(arr) {
+  return arr.map(function(item){
+    item = item.trim();
+    if(item) return '{"'+item+'",""},';
+    else return '';
+  })
+  .filter(function(item){
+    return item.length>0;
+  })
+  .join('');
+}
+
+Blockly.mbed['esp8266_setup'] = function (block) {
+  var host = this.getFieldValue('host');
+  var ssid = this.getFieldValue('ssid');
+  var passwd = this.getFieldValue('passwd');
+  var TX = this.getFieldValue('TX');
+  var RX = this.getFieldValue('RX');
+  var sensors = esp8266_build_sensors_actuators(this.getFieldValue('sensors').split(','));
+  var actuators = esp8266_build_sensors_actuators(this.getFieldValue('actuators').split(','));
+  var code= "";
+  code += "Esp8266 Esp8266client_("+TX+", "+RX+", \"" + ssid + "\", \"" + passwd + "\");\n";
+  code += "const char* esp8266sensors_[][2] = {"+sensors+"{NULL,NULL}};\n";
+  code += "const char* esp8266actuators_[][2] = {"+actuators+"{NULL,NULL}};\n";
+  code += 'Esp8266client_.connect_mqtt_broker("' + host + '", "cangku", esp8266sensors_, esp8266actuators_);\n';
+  return code;
+};
+
+Blockly.mbed['esp8266_publish'] = function (block) {
+  var topic = Blockly.mbed.valueToCode(block, 'topic', Blockly.mbed.ORDER_COMMA) || '""';
+  var value = Blockly.mbed.valueToCode(block, 'value', Blockly.mbed.ORDER_COMMA) || '""';
+  return 'Esp8266client_.publish_value('+topic+', '+value+');\n';
+};
+
+Blockly.mbed['esp8266_receive'] = function (block) {
+  var topic = Blockly.mbed.getVariableName(block, this.getFieldValue('topic'), Blockly.Variables.NAME_TYPE);
+  var value = Blockly.mbed.getVariableName(block, this.getFieldValue('value'), Blockly.Variables.NAME_TYPE);
+  var code;
+  code = 'Esp8266client_.get_control_cmd(' + topic + ', ' + value + ')';
+  return [code, Blockly.mbed.ORDER_MEMBER];
+};

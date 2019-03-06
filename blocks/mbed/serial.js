@@ -341,3 +341,70 @@ Blockly.Blocks.serial_getc.updateFields = function() {
   Blockly.mbed.Boards.refreshBlockFieldDropdown(
       this, 'SERIAL_Pins', 'serialPins');
 };
+
+Blockly.Blocks.esp8266_setup = {
+  init: function(){
+      this.setColour(Blockly.Blocks.serial.HUE);
+      this.appendDummyInput()
+          .appendField("ESP8266 RX:")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.serialPinsRX), 'RX')
+          .appendField("TX:")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.serialPinsTX), 'TX');
+      this.appendDummyInput()
+          .appendField("WiFi SSID:")
+          .appendField(
+              new Blockly.FieldTextInput("iot_xxx"), 'ssid')
+          .appendField("password:")
+          .appendField(
+              new Blockly.FieldTextInput("12345678"), 'passwd');
+      this.appendDummyInput()
+          .appendField("connects to")
+          .appendField(
+              new Blockly.FieldTextInput("192.168.12.1"), 'host');
+      this.appendDummyInput()
+          .appendField("Sensors: ")
+          .appendField(
+            new Blockly.FieldTextInput("light,switch"), 'sensors');
+      this.appendDummyInput()
+          .appendField("Actuators: ")
+          .appendField(
+            new Blockly.FieldTextInput("door,motor"), 'actuators');
+      this.setInputsInline(false);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.esp8266_publish = {
+  init: function(){
+      this.setColour(Blockly.Blocks.serial.HUE);
+      this.appendValueInput('topic')
+          .setCheck("String")
+          .appendField("ESP8266 publishes topic");
+      this.appendValueInput('value')
+          .setCheck("String")
+          .appendField("with value");
+      this.setInputsInline(false);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.esp8266_receive = {
+  init: function(){
+      this.setColour(Blockly.Blocks.serial.HUE);
+      this.appendDummyInput()
+          .appendField("ESP8266 received message");
+      this.appendDummyInput()
+          .appendField("Store topic:")
+          .appendField(new Blockly.FieldVariable('topic'), 'topic')
+          .appendField("and value:")
+          .appendField(new Blockly.FieldVariable('value'), 'value');
+      this.setInputsInline(false);
+      this.setOutput(true, null);
+  },
+};
