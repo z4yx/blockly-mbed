@@ -167,3 +167,89 @@ Blockly.mbed['nrf24_write'] = function (block) {
   code = name + '.write( NRF24L01P_PIPE_P0, ' + buf + ', NRF24_TRANSFER_SIZE);\n';
   return code;
 };
+
+function w5500_build_sensors_actuators(arr) {
+  return arr.map(function(item){
+    item = item.trim();
+    if(item) return '{"'+item+'",""},';
+    else return '';
+  })
+  .filter(function(item){
+    return item.length>0;
+  })
+  .join('');
+}
+
+Blockly.mbed['w5500_setup'] = function (block) {
+  var host = this.getFieldValue('host');
+  var sensors = w5500_build_sensors_actuators(this.getFieldValue('sensors').split(','));
+  var actuators = w5500_build_sensors_actuators(this.getFieldValue('actuators').split(','));
+  var code= "";
+  code += "MQTTSocket w5500sock_;\n";
+  code += "MClient w5500client_(w5500sock_);\n";
+  code += "const char* w5500sensors_[][2] = {"+sensors+"{NULL,NULL}};\n";
+  code += "const char* w5500actuators_[][2] = {"+actuators+"{NULL,NULL}};\n";
+  code += 'networking_init(sock, client, "' + host + '", w5500sensors_, w5500actuators_, W5500_on_command);\n';
+  return code;
+};
+
+Blockly.mbed['w5500_yield'] = function (block) {
+  var t = this.getFieldValue('timeout');
+  var code;
+  code = 'w5500client_.yield('+t+');\n';
+  return code;
+};
+
+Blockly.mbed['w5500_publish'] = function (block) {
+  var topic = Blockly.mbed.valueToCode(block, 'topic', Blockly.mbed.ORDER_COMMA) || '""';
+  var value = Blockly.mbed.valueToCode(block, 'value', Blockly.mbed.ORDER_COMMA) || '""';
+  return 'publish_value(client, '+topic+', '+value+');\n';
+};
+
+Blockly.mbed['w5500_command'] = function (block) {
+  var branch = Blockly.mbed.statementToCode(block, 'function_body');
+
+  if (Blockly.mbed.STATEMENT_PREFIX) {
+      branch = Blockly.mbed.prefixLines(
+          Blockly.mbed.STATEMENT_PREFIX.replace(/%1/g,
+              '\'' + block.id + '\''), Blockly.mbed.INDENT) + branch;
+  }
+  if (Blockly.mbed.INFINITE_LOOP_TRAP) {
+      branch = Blockly.mbed.INFINITE_LOOP_TRAP.replace(/%1/g,
+          '\'' + block.id + '\'') + branch;
+  }
+  var returnValue = Blockly.mbed.valueToCode(block, 'RETURN',
+      Blockly.mbed.ORDER_NONE) || '';
+  if (returnValue) {
+      returnValue = '  return ' + returnValue + ';\n';
+  }
+
+  // Get arguments with type
+  var args = [];
+  for (var x = 0; x < block.arguments_.length; x++) {
+      var name = block.arguments_[x];
+      args[x] = Blockly.mbed.getmbedType_(block.argumentsType_[x]);
+      if (block.argumentsType_[x].typeId === Blockly.Types.ARRAY.typeId)
+          args[x] = args[x].replace(/\[/, name + '[');
+      else
+          args[x] += ' ' + name;
+  }
+
+  // Get return type
+  var returnType = Blockly.Types.NULL;
+  if (block.getReturnType) {
+      returnType = block.getReturnType();
+  }
+  returnType = Blockly.mbed.getmbedType_(returnType);
+
+  // Construct code
+  var functionName = block.callbackName_;
+  var code = returnType + ' ' + functionName + '(' + args.join(', ') + ') {\n' +
+      branch + returnValue + '}';
+  // code = Blockly.mbed.scrub_(block, code);
+  Blockly.mbed.userFunctions_[functionName] = code;
+
+  // TODO: Assemble mbed into code variable.
+
+  return '';
+};

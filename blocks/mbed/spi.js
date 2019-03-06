@@ -310,3 +310,70 @@ Blockly.Blocks.nrf24_write = {
         .appendField(new Blockly.FieldVariable('buf'), 'BUF');
   },
 };
+
+Blockly.Blocks.w5500_setup = {
+  init: function(){
+      this.setColour(Blockly.Blocks.spi.HUE);
+      this.appendDummyInput()
+          .appendField("W5500 connects to")
+          .appendField(
+              new Blockly.FieldTextInput("192.168.12.1"), 'host');
+      this.appendDummyInput()
+          .appendField("Sensors: ")
+          .appendField(
+            new Blockly.FieldTextInput("light,switch"), 'sensors');
+      this.appendDummyInput()
+          .appendField("Actuators: ")
+          .appendField(
+            new Blockly.FieldTextInput("door,motor"), 'actuators');
+      this.setInputsInline(false);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.w5500_publish = {
+  init: function(){
+      this.setColour(Blockly.Blocks.spi.HUE);
+      this.appendValueInput('topic')
+          .setCheck("String")
+          .appendField("W5500 publishes topic");
+      this.appendValueInput('value')
+          .setCheck("String")
+          .appendField("with value");
+      this.setInputsInline(false);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.w5500_yield = {
+  init: function(){
+      this.setColour(Blockly.Blocks.spi.HUE);
+      this.appendDummyInput()
+          .appendField("W5500 yield")
+          .appendField(new Blockly.FieldNumber(200, 1, 1000000), 'timeout')
+          .appendField("ms");
+      this.setInputsInline(false);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.w5500_command = {
+  init: function() {
+      this.appendDummyInput()
+          .appendField('W5500 on command received');
+      this.appendDummyInput()
+          .appendField('Args: ')
+          .appendField(new Blockly.FieldLabel('string topic'))
+          .appendField(new Blockly.FieldLabel('string value'));
+      this.appendStatementInput("function_body")
+          .setCheck(null);
+      this.setInputsInline(false);
+      this.setColour(Blockly.Blocks.spi.HUE);
+      this.arguments_ = ['topic', 'value'];
+      this.argumentsType_ = [Blockly.Types.TEXT, Blockly.Types.TEXT];
+      this.callbackName_ = 'W5500_on_command';
+  }
+};
