@@ -132,6 +132,7 @@ Blockly.mbed['nrf24_setup'] = function (block) {
   var ce = this.getFieldValue('CE');
   var irq = this.getFieldValue('IRQ');
   var size = this.getFieldValue('SIZE');
+  var ch = this.getFieldValue('CH');
   var name = 'nrf24_' + mosi;
   var macroSize = 'NRF24_TRANSFER_SIZE';
   Blockly.mbed.addDeclaration(macroSize,'#define '+macroSize+' '+size);
@@ -139,6 +140,8 @@ Blockly.mbed['nrf24_setup'] = function (block) {
   return name + '.powerUp();\n' +
         name + '.setTransferSize( '+ macroSize + ' );\n' +
         name + '.setReceiveMode();\n' +
+        name + '.setRxAddress(' + ch + 'ull);\n' +
+        name + '.setTxAddress(' + ch + 'ull);\n' +
         name + '.enable();\n';
 };
 

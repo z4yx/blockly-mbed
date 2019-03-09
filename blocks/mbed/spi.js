@@ -262,7 +262,9 @@ Blockly.Blocks.nrf24_setup = {
                   Blockly.mbed.Boards.selected.digitalPins), 'IRQ');
       this.appendDummyInput()
           .appendField("Message size")
-          .appendField(new Blockly.FieldNumber(4, 1, 32), 'SIZE');
+          .appendField(new Blockly.FieldNumber(4, 1, 32), 'SIZE')
+          .appendField("Channel Number")
+          .appendField(new Blockly.FieldNumber(114514, 1, 4294967295), 'CH');
 
       this.setInputsInline(false);
       /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
