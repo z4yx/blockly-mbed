@@ -192,7 +192,7 @@ Blockly.mbed['jy901_receive'] = function (block) {
 
 function jy901_get_any(method_name) {
     return function (block) {
-        var io = this.getFieldValue('JY901_NAME');
+        var io = this.getFieldValue('NAME');
         var arg1 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG1'), Blockly.Variables.NAME_TYPE);
         var arg2 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG2'), Blockly.Variables.NAME_TYPE);
         var arg3 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG3'), Blockly.Variables.NAME_TYPE);
@@ -207,3 +207,39 @@ Blockly.mbed['jy901_getacc'] = jy901_get_any('getAcc');
 Blockly.mbed['jy901_getgyo'] = jy901_get_any('getGyo');
 Blockly.mbed['jy901_getmag'] = jy901_get_any('getMag');
 Blockly.mbed['jy901_getatt'] = jy901_get_any('getAttitude');
+
+
+Blockly.mbed['mpu6050_setup'] = function (block) {
+    var sda = this.getFieldValue('I2C_SDA');
+    var scl = this.getFieldValue('I2C_SCL');
+    var txIns = Blockly.mbed.Boards.selected.i2cMapper[sda];
+    var rxIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
+    console.assert(txIns == rxIns);
+    var name = 'mpu6050_' + txIns;
+    Blockly.mbed.addDeclaration(name, 'mpu6050 ' + name + '(' + sda + ',' + scl + ');');
+    return "";
+};
+
+Blockly.mbed['mpu6050_receive'] = function (block) {
+    var io = this.getFieldValue('NAME');
+    var name = 'mpu6050_' + io;
+    var code;
+    code = name + '.receiveData();\n';
+    return code;
+};
+
+function mpu6050_get_any(method_name) {
+    return function (block) {
+        var io = this.getFieldValue('NAME');
+        var arg1 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG1'), Blockly.Variables.NAME_TYPE);
+        var arg2 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG2'), Blockly.Variables.NAME_TYPE);
+        var arg3 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG3'), Blockly.Variables.NAME_TYPE);
+        var name = 'mpu6050_' + io;
+        var code;
+        code = name + '.' + method_name + '(' + arg1 + ',' + arg2 + ',' + arg3 + ');\n';
+        return code;
+    };
+}
+
+Blockly.mbed['mpu6050_getacc'] = mpu6050_get_any('getAcc');
+Blockly.mbed['mpu6050_getgyo'] = mpu6050_get_any('getGyo');

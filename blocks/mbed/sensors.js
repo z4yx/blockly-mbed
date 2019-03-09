@@ -426,14 +426,14 @@ Blockly.Blocks.analog_o = block_read_input("GenericAnalog", "Value");
 Blockly.Blocks.analog_readable = block_value_readable("GenericAnalog");
 Blockly.Blocks.analog_reset = block_value_reset("GenericAnalog");
 
-function block_jy901_get_val(input_name)
+function block_imu_get_val(input_name, hardwareConn)
 {
     var read_value = {};
     read_value.init = function () {
         this.setColour(Blockly.Blocks.sensors.HUE);
         this.appendDummyInput()
             .appendField("Get "+input_name+" from ")
-            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'JY901_NAME')
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected[hardwareConn]), 'NAME')
             .appendField(" into ")
             .appendField(new Blockly.FieldVariable('x'), 'ARG1')
             .appendField(new Blockly.FieldVariable('y'), 'ARG2')
@@ -444,7 +444,7 @@ function block_jy901_get_val(input_name)
     };
     read_value.updateFields = function () {
         Blockly.mbed.Boards.refreshBlockFieldDropdown(
-            this, 'JY901_NAME', 'serialPins');
+            this, 'NAME', hardwareConn);
     };
     read_value.getVars = function () {
         return [this.getFieldValue('ARG1'), this.getFieldValue('ARG2'), this.getFieldValue('ARG3')];
@@ -457,10 +457,10 @@ function block_jy901_get_val(input_name)
 
 Blockly.Blocks.jy901_setup = {};
 Blockly.Blocks.jy901_receive = {};
-Blockly.Blocks.jy901_getacc = block_jy901_get_val("Accel");
-Blockly.Blocks.jy901_getgyo = block_jy901_get_val("Gyro");
-Blockly.Blocks.jy901_getmag = block_jy901_get_val("Magnetic");
-Blockly.Blocks.jy901_getatt = block_jy901_get_val("Axes");
+Blockly.Blocks.jy901_getacc = block_imu_get_val("Accel", 'serialPins');
+Blockly.Blocks.jy901_getgyo = block_imu_get_val("Gyro", 'serialPins');
+Blockly.Blocks.jy901_getmag = block_imu_get_val("Magnetic", 'serialPins');
+Blockly.Blocks.jy901_getatt = block_imu_get_val("Axes", 'serialPins');
 
 Blockly.Blocks.jy901_setup.init = function () {
     this.setColour(Blockly.Blocks.sensors.HUE);
@@ -518,4 +518,76 @@ Blockly.Blocks.jy901_receive.init = function () {
 Blockly.Blocks.jy901_receive.updateFields = function () {
     Blockly.mbed.Boards.refreshBlockFieldDropdown(
         this, 'JY901_NAME', 'serialPins');
+};
+
+
+Blockly.Blocks.mpu6050_setup = {};
+Blockly.Blocks.mpu6050_receive = {};
+Blockly.Blocks.mpu6050_getacc = block_imu_get_val("Accel", 'i2cPins');
+Blockly.Blocks.mpu6050_getgyo = block_imu_get_val("Gyro", 'i2cPins');
+
+Blockly.Blocks.mpu6050_receive.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("Receive from MPU6050 on ")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'NAME');
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+};
+
+Blockly.Blocks.mpu6050_setup.init = function () {
+    this.setColour(Blockly.Blocks.sensors.HUE);
+    this.appendDummyInput()
+        .appendField("MPU6050", 'MPU6050_NAME')
+        .appendField("Setup SDA:")
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.i2cPinsSDA), 'I2C_SDA')
+        .appendField("SCL:")
+        .appendField(
+            new Blockly.FieldDropdown(
+                Blockly.mbed.Boards.selected.i2cPinsSCL), 'I2C_SCL');
+    this.setInputsInline(true);
+    /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+        it is very hard to detect whether the i2c is initialized or not
+    */
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(false, null);
+};
+/**
+ * Returns the i2c instance name.
+ * @return {!string} mpu6050 instance name.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.mpu6050_setup.getMPU6050SetupInstance = function () {
+    return Blockly.mbed.Boards.selected.i2cMapper[this.getFieldValue('I2C_SDA')];
+};
+Blockly.Blocks.mpu6050_setup.onchange = function () {
+    if (!this.workspace) { return; }  // Block has been deleted.
+
+    //Get the mpu6050 instance from this block
+    var sda = this.getFieldValue('I2C_SDA');
+    var scl = this.getFieldValue('I2C_SCL');
+    var sdaIns = Blockly.mbed.Boards.selected.i2cMapper[sda];
+    var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
+    if (sdaIns == sclIns) {
+        this.setWarningText(null, 'i2c_mismatch');
+        this.setFieldValue('MPU6050 on %1:'.replace('%1', sdaIns), 'MPU6050_NAME');
+    }
+    else {
+        this.setWarningText(sdaIns + " mismatches " + sclIns, 'i2c_mismatch');
+        this.setFieldValue('MPU6050', 'MPU6050_NAME');
+    }
+};
+/**
+ * Updates the content of the the i2c related fields.
+ * @this Blockly.Block
+ * @memberof Blockly.Blocks
+ */
+Blockly.Blocks.mpu6050_setup.updateFields = function () {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_SDA', 'digitalPins');
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'I2C_SCL', 'digitalPins');
 };
