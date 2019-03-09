@@ -178,8 +178,8 @@ Blockly.StaticTyping.prototype.assignTypeToVars =
       break;
     // Variable with valid type already registered
     default:
-      this.setBlockTypeWarning(
-          block, varType, varName, this.varTypeDict[varName]);
+      // this.setBlockTypeWarning(
+      //     block, varType, varName, this.varTypeDict[varName]);
       break;
   }
 };
