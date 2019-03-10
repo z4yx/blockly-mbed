@@ -39,6 +39,34 @@ Blockly.Blocks['variables_declare'] = {
   },
 };
 
+Blockly.Blocks['variables_declare_array'] = {
+  init: function() {
+    this.setColour(Blockly.Blocks.variables.HUE);
+    this.appendDummyInput()
+        .appendField("Declare")
+        .appendField(new Blockly.FieldVariable('item'), 'VARNAME')
+        .appendField("as a list of")
+        .appendField(new Blockly.FieldNumber(10,1), 'LEN')
+        .appendField(new Blockly.FieldDropdown(
+                         Blockly.Types.getValidTypeArray()),
+                     'VARIABLE_SETTYPE_TYPE');
+    this.setInputsInline(true);
+  },
+  getVars: function () {
+      return [this.getFieldValue('VARNAME')];
+  },
+  getVarType: function (varName) {
+      return new Blockly.Type({
+        typeId: 'Array',
+        typeMsgName: 'MBED_TYPE_ARRAY',
+        compatibleTypes: [],
+        typeAtom: Blockly.Types[this.getFieldValue('VARIABLE_SETTYPE_TYPE')],
+        typeLength: this.getFieldValue('LEN'),
+        typeContent: ''
+      });
+  },
+};
+
 Blockly.Blocks['variables_set_type'] = {
   /**
    * Block for variable casting.

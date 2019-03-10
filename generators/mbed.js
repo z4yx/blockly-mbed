@@ -123,9 +123,13 @@ Blockly.mbed.init = function(workspace) {
 
   // Set variable declarations with their mbed type in the defines dictionary
   for (var varName in varsWithTypes) {
-    Blockly.mbed.addVariable(varName,
-        Blockly.mbed.getmbedType_(varsWithTypes[varName]) +' ' +
-        workspace.getVariableById(varName).name + ';');
+    var name = workspace.getVariableById(varName).name;
+    var decl = Blockly.mbed.getmbedType_(varsWithTypes[varName]);
+    if (varsWithTypes[varName].typeId === Blockly.Types.ARRAY.typeId)
+        decl = decl.replace(/\[/, name + '[');
+    else
+        decl += ' ' + name;
+    Blockly.mbed.addVariable(varName, decl + ';');
   }
 };
 
