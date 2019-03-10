@@ -115,3 +115,20 @@ Blockly.Blocks['infinite_loop'] = {
     this.setTooltip(Blockly.Msg.MBED_TIME_INF_TIP);
   }
 };
+
+
+Blockly.Blocks['ticker_attach'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("run in every")
+        .appendField(new Blockly.FieldNumber(1, 0), 'ticks')
+        .appendField("seconds");
+    this.appendStatementInput("function_body")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Blocks.time.HUE);
+    this.arguments_ = [];
+  }
+};

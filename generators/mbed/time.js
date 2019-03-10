@@ -71,3 +71,53 @@ goog.require('Blockly.mbed');
  Blockly.mbed['infinite_loop'] = function(block) {
   return 'while(true);\n';
 };
+
+Blockly.mbed['ticker_attach'] = function(block) {
+  var ticks = block.getFieldValue('ticks');
+  var tickName = 'tick' + String(Math.random()).substring(2,8);
+  var branch = Blockly.mbed.statementToCode(block, 'function_body');
+  
+  if (Blockly.mbed.STATEMENT_PREFIX) {
+    branch = Blockly.mbed.prefixLines(
+        Blockly.mbed.STATEMENT_PREFIX.replace(/%1/g,
+        '\'' + block.id + '\''), Blockly.mbed.INDENT) + branch;
+  }
+  if (Blockly.mbed.INFINITE_LOOP_TRAP) {
+    branch = Blockly.mbed.INFINITE_LOOP_TRAP.replace(/%1/g,
+        '\'' + block.id + '\'') + branch;
+  }
+  var returnValue = Blockly.mbed.valueToCode(block, 'RETURN',
+      Blockly.mbed.ORDER_NONE) || '';
+  if (returnValue) {
+    returnValue = '  return ' + returnValue + ';\n';
+  }
+
+  // Get arguments with type
+  var args = [];
+  for (var x = 0; x < block.arguments_.length; x++) {
+    args[x] =
+        Blockly.mbed.getmbedType_(block.getArgType(block.arguments_[x])) +
+        ' ' +
+        Blockly.mbed.getVariableName(block, block.arguments_[x],
+            Blockly.Variables.NAME_TYPE);
+  }
+
+  // Get return type
+  var returnType = Blockly.Types.NULL;
+  if (block.getReturnType) {
+    returnType = block.getReturnType();
+  }
+  returnType = Blockly.mbed.getmbedType_(returnType);
+
+  // Construct code
+  var functionName=tickName+'_handle';
+  var code = returnType + ' ' + functionName + '(' + args.join(', ') + ') {\n' +
+      branch + returnValue + '}';
+  // code = Blockly.mbed.scrub_(block, code);
+  Blockly.mbed.userFunctions_[functionName] = code;  
+  
+  Blockly.mbed.addDeclaration(tickName , 'Ticker '+tickName+';');
+  
+  var attach_code = tickName + '.attach'+'(&' + functionName+',' + ticks +');\n';  
+  return attach_code;
+};
