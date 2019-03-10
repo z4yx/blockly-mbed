@@ -55,7 +55,8 @@ Blockly.mbed['io_digitalread'] = function(block) {
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
 Blockly.mbed['io_interrupt'] = function(block) {
-  var intrName = 'intr' + block.getFieldValue('Pin');
+  var pin = block.getFieldValue('Pin');
+  var intrName = 'intr' + pin;
   var intrType = block.getFieldValue('Type');
   var branch = Blockly.mbed.statementToCode(block, 'function_body');
   
@@ -98,7 +99,7 @@ Blockly.mbed['io_interrupt'] = function(block) {
   // code = Blockly.mbed.scrub_(block, code);
   Blockly.mbed.userFunctions_[functionName] = code;  
   
-  // TODO: Assemble mbed into code variable.
+  Blockly.mbed.addDeclaration(intrName , 'InterruptIn '+intrName+'(' + pin + ');');
   
   var attach_code = intrName + '.'+intrType+'(&' + functionName+');\n';  
   return attach_code;
