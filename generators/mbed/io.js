@@ -105,6 +105,12 @@ Blockly.mbed['io_interrupt'] = function(block) {
   return attach_code;
 };
 
+Blockly.mbed['set_interrupt_prio'] = function(block) {
+  var irq = block.getFieldValue('IRQ');
+  var prio = block.getFieldValue('PRIO');
+  var code = 'NVIC_SetPriority('+irq+', '+prio+');\n';
+  return code;
+};
 
 /**
  * Function for setting the state (Y) of a built-in LED (X).

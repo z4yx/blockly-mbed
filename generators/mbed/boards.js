@@ -155,7 +155,52 @@ Blockly.mbed.Boards['profiles']['nucleo_f103rb']={
     i2cPinsSCL: [['PB_8','PB_8'],['PB_10','PB_10'],['PB_6','PB_6']],
     i2cSpeed: [['100kHz', '100000L'], ['400kHz', '400000L']],
     builtinLed: [['LED_1', 'PA_5']],
-    interrupt: [['interrupt0', '2'], ['interrupt1', '3']]    
+    interrupt: [['interrupt0', '2'], ['interrupt1', '3']],
+    irqNumber: [
+      ['WWDG_IRQn','WWDG_IRQn'],      /*!< Window WatchDog Interrupt                            */
+      ['PVD_IRQn','PVD_IRQn'],      /*!< PVD through EXTI Line detection Interrupt            */
+      ['TAMPER_IRQn','TAMPER_IRQn'],      /*!< Tamper Interrupt                                     */
+      ['RTC_IRQn','RTC_IRQn'],      /*!< RTC global Interrupt                                 */
+      ['FLASH_IRQn','FLASH_IRQn'],      /*!< FLASH global Interrupt                               */
+      ['RCC_IRQn','RCC_IRQn'],      /*!< RCC global Interrupt                                 */
+      ['EXTI0_IRQn','EXTI0_IRQn'],      /*!< EXTI Line0 Interrupt                                 */
+      ['EXTI1_IRQn','EXTI1_IRQn'],      /*!< EXTI Line1 Interrupt                                 */
+      ['EXTI2_IRQn','EXTI2_IRQn'],      /*!< EXTI Line2 Interrupt                                 */
+      ['EXTI3_IRQn','EXTI3_IRQn'],      /*!< EXTI Line3 Interrupt                                 */
+      ['EXTI4_IRQn','EXTI4_IRQn'],     /*!< EXTI Line4 Interrupt                                 */
+      ['DMA1_Channel1_IRQn','DMA1_Channel1_IRQn'],     /*!< DMA1 Channel 1 global Interrupt                      */
+      ['DMA1_Channel2_IRQn','DMA1_Channel2_IRQn'],     /*!< DMA1 Channel 2 global Interrupt                      */
+      ['DMA1_Channel3_IRQn','DMA1_Channel3_IRQn'],     /*!< DMA1 Channel 3 global Interrupt                      */
+      ['DMA1_Channel4_IRQn','DMA1_Channel4_IRQn'],     /*!< DMA1 Channel 4 global Interrupt                      */
+      ['DMA1_Channel5_IRQn','DMA1_Channel5_IRQn'],     /*!< DMA1 Channel 5 global Interrupt                      */
+      ['DMA1_Channel6_IRQn','DMA1_Channel6_IRQn'],     /*!< DMA1 Channel 6 global Interrupt                      */
+      ['DMA1_Channel7_IRQn','DMA1_Channel7_IRQn'],     /*!< DMA1 Channel 7 global Interrupt                      */
+      ['ADC1_2_IRQn','ADC1_2_IRQn'],     /*!< ADC1 and ADC2 global Interrupt                       */
+      ['USB_HP_CAN1_TX_IRQn','USB_HP_CAN1_TX_IRQn'],     /*!< USB Device High Priority or CAN1 TX Interrupts       */
+      ['USB_LP_CAN1_RX0_IRQn','USB_LP_CAN1_RX0_IRQn'],     /*!< USB Device Low Priority or CAN1 RX0 Interrupts       */
+      ['CAN1_RX1_IRQn','CAN1_RX1_IRQn'],     /*!< CAN1 RX1 Interrupt                                   */
+      ['CAN1_SCE_IRQn','CAN1_SCE_IRQn'],     /*!< CAN1 SCE Interrupt                                   */
+      ['EXTI9_5_IRQn','EXTI9_5_IRQn'],     /*!< External Line[9:5] Interrupts                        */
+      ['TIM1_BRK_IRQn','TIM1_BRK_IRQn'],     /*!< TIM1 Break Interrupt                                 */
+      ['TIM1_UP_IRQn','TIM1_UP_IRQn'],     /*!< TIM1 Update Interrupt                                */
+      ['TIM1_TRG_COM_IRQn','TIM1_TRG_COM_IRQn'],     /*!< TIM1 Trigger and Commutation Interrupt               */
+      ['TIM1_CC_IRQn','TIM1_CC_IRQn'],     /*!< TIM1 Capture Compare Interrupt                       */
+      ['TIM2_IRQn','TIM2_IRQn'],     /*!< TIM2 global Interrupt                                */
+      ['TIM3_IRQn','TIM3_IRQn'],     /*!< TIM3 global Interrupt                                */
+      ['TIM4_IRQn','TIM4_IRQn'],     /*!< TIM4 global Interrupt                                */
+      ['I2C1_EV_IRQn','I2C1_EV_IRQn'],     /*!< I2C1 Event Interrupt                                 */
+      ['I2C1_ER_IRQn','I2C1_ER_IRQn'],     /*!< I2C1 Error Interrupt                                 */
+      ['I2C2_EV_IRQn','I2C2_EV_IRQn'],     /*!< I2C2 Event Interrupt                                 */
+      ['I2C2_ER_IRQn','I2C2_ER_IRQn'],     /*!< I2C2 Error Interrupt                                 */
+      ['SPI1_IRQn','SPI1_IRQn'],     /*!< SPI1 global Interrupt                                */
+      ['SPI2_IRQn','SPI2_IRQn'],     /*!< SPI2 global Interrupt                                */
+      ['USART1_IRQn','USART1_IRQn'],     /*!< USART1 global Interrupt                              */
+      ['USART2_IRQn','USART2_IRQn'],     /*!< USART2 global Interrupt                              */
+      ['USART3_IRQn','USART3_IRQn'],     /*!< USART3 global Interrupt                              */
+      ['EXTI15_10_IRQn','EXTI15_10_IRQn'],     /*!< External Line[15:10] Interrupts                      */
+      ['RTC_Alarm_IRQn','RTC_Alarm_IRQn'],     /*!< RTC Alarm through EXTI Line Interrupt                */
+      ['USBWakeUp_IRQn','USBWakeUp_IRQn'],     /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
+    ],
 }
 /** Set default profile to mbed standard-compatible board */
 Blockly.mbed.Boards['selected'] = Blockly.mbed.Boards['profiles']['nucleo_f103rb'];

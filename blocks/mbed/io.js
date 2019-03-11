@@ -98,6 +98,20 @@ Blockly.Blocks['io_interrupt'] = {
   }
 };
 
+Blockly.Blocks['set_interrupt_prio'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set priority of")
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.irqNumber), 'IRQ')
+        .appendField("to")
+        .appendField(new Blockly.FieldNumber(1,0,15), 'PRIO');
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(Blockly.Blocks.io.HUE);
+  }
+};
+
 Blockly.Blocks['io_builtin_led'] = {
   /**
    * Block for setting built-in LED to a state.
