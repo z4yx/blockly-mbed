@@ -30,6 +30,7 @@ Blockly.mbed['bh1750_setup'] = function (block) {
     var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
     console.assert(sdaIns == sclIns);
     var name = 'bh1750_' + sdaIns;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'BH1750 ' + name + '(' + sda + ',' + scl + ');');
     return "";
 };
@@ -55,6 +56,7 @@ Blockly.mbed['bmp180_setup'] = function (block) {
     var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
     console.assert(sdaIns == sclIns);
     var name = 'bmp180_' + sdaIns;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'BMP180 ' + name + '(' + sda + ',' + scl + ');');
     return "";
 };
@@ -84,6 +86,7 @@ Blockly.mbed['dht11_readable'] = function (block) {
 Blockly.mbed['dht11_setup'] = function (block) {
     var io = this.getFieldValue('IO');
     var name = 'dht11_' + io;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'dht11 ' + name + '(' + io + ');');
     return "";
 };
@@ -106,6 +109,7 @@ Blockly.mbed['ds18B20_readable'] = function (block) {
 Blockly.mbed['ds18B20_setup'] = function (block) {
     var io = this.getFieldValue('IO');
     var name = 'ds18B20_' + io;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'DS18B20 ' + name + '(' + io + ');');
     return "";
 };
@@ -136,6 +140,7 @@ Blockly.mbed['sr501_reset'] = function (block) {
 Blockly.mbed['sr501_setup'] = function (block) {
     var io = this.getFieldValue('IO');
     var name = 'sr501_' + io;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'sr501 ' + name + '(' + io + ');');
     return "";
 };
@@ -167,6 +172,7 @@ Blockly.mbed['analog_setup'] = function (block) {
     var io = this.getFieldValue('IO');
     var aio = this.getFieldValue('AIO');
     var name = 'analog_' + io;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'YL ' + name + '(' + io + ',' + aio + ');');
     return "";
 };
@@ -178,6 +184,7 @@ Blockly.mbed['jy901_setup'] = function (block) {
     var rxIns = Blockly.mbed.Boards.selected.serialMapper[rx];
     console.assert(txIns == rxIns);
     var name = 'jy901_' + txIns;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'JY901 ' + name + '(' + tx + ',' + rx + ');');
     return "";
 };
@@ -216,6 +223,7 @@ Blockly.mbed['mpu6050_setup'] = function (block) {
     var rxIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
     console.assert(txIns == rxIns);
     var name = 'mpu6050_' + txIns;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
     Blockly.mbed.addDeclaration(name, 'mpu6050 ' + name + '(' + sda + ',' + scl + ');');
     return "";
 };

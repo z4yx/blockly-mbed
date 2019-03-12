@@ -137,6 +137,7 @@ Blockly.mbed['nrf24_setup'] = function (block) {
   var macroSize = 'NRF24_TRANSFER_SIZE';
   Blockly.mbed.addDeclaration(macroSize,'#define '+macroSize+' '+size);
   Blockly.mbed.addDeclaration(name, 'nRF24L01P ' + name + '(' + mosi + ',' + miso + ',' + sck + ',' + cs + ',' + ce + ',' + irq + ');');
+  Blockly.mbed.addInclude('nRF24L01P', '#include "nRF24L01P.h"');
   return name + '.powerUp();\n' +
         name + '.setTransferSize( '+ macroSize + ' );\n' +
         name + '.setReceiveMode();\n' +
