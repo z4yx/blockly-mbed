@@ -93,6 +93,8 @@ Blockly.mbed.Boards['profiles']['nucleo_f103rb']={
   analogPins: [
     [ 'PA_0', 'PA_0' ],
     [ 'PA_1', 'PA_1' ],
+    [ 'PA_2', 'PA_2' ],
+    [ 'PA_3', 'PA_3' ],
     [ 'PA_4', 'PA_4' ],
     [ 'PA_5', 'PA_5' ],
     [ 'PA_6', 'PA_6' ],
