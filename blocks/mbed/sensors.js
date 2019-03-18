@@ -522,18 +522,7 @@ Blockly.Blocks.jy901_receive.updateFields = function () {
 
 
 Blockly.Blocks.mpu6050_setup = {};
-Blockly.Blocks.mpu6050_receive = {};
-Blockly.Blocks.mpu6050_getacc = block_imu_get_val("Accel", 'i2cPins');
-Blockly.Blocks.mpu6050_getgyo = block_imu_get_val("Gyro", 'i2cPins');
-
-Blockly.Blocks.mpu6050_receive.init = function () {
-    this.setColour(Blockly.Blocks.sensors.HUE);
-    this.appendDummyInput()
-        .appendField("Receive from MPU6050 on ")
-        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'NAME');
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-};
+Blockly.Blocks.mpu6050_getatt = block_imu_get_val("Axes", 'i2cPins');
 
 Blockly.Blocks.mpu6050_setup.init = function () {
     this.setColour(Blockly.Blocks.sensors.HUE);

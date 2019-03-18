@@ -223,16 +223,9 @@ Blockly.mbed['mpu6050_setup'] = function (block) {
     var rxIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
     console.assert(txIns == rxIns);
     var name = 'mpu6050_' + txIns;
-    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
+    Blockly.mbed.addInclude('MPU6050', '#include "MPU6050.h"');
     Blockly.mbed.addDeclaration(name, 'mpu6050 ' + name + '(' + sda + ',' + scl + ');');
-    return "";
-};
-
-Blockly.mbed['mpu6050_receive'] = function (block) {
-    var io = this.getFieldValue('NAME');
-    var name = 'mpu6050_' + io;
-    var code;
-    code = name + '.receiveData();\n';
+    var code = name + '.Init();\n';
     return code;
 };
 
@@ -244,10 +237,9 @@ function mpu6050_get_any(method_name) {
         var arg3 = Blockly.mbed.getVariableName(block, this.getFieldValue('ARG3'), Blockly.Variables.NAME_TYPE);
         var name = 'mpu6050_' + io;
         var code;
-        code = name + '.' + method_name + '(' + arg1 + ',' + arg2 + ',' + arg3 + ');\n';
+        code = name + '.' + method_name + '(&' + arg1 + ',&' + arg2 + ',&' + arg3 + ');\n';
         return code;
     };
 }
 
-Blockly.mbed['mpu6050_getacc'] = mpu6050_get_any('getAcc');
-Blockly.mbed['mpu6050_getgyo'] = mpu6050_get_any('getGyo');
+Blockly.mbed['mpu6050_getatt'] = mpu6050_get_any('receiveData');
