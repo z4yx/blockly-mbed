@@ -158,6 +158,23 @@ Blockly.mbed['io_pwm_set'] = function(block) {
   return code;
 };
 
+Blockly.mbed['io_soft_pwm_set'] = function(block) {
+  var pinKey = block.getFieldValue('PWM_PIN');
+  var pwmPeriod = Blockly.mbed.valueToCode(
+      block, 'PWM_PERIOD', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var pwmPulseWidth = Blockly.mbed.valueToCode(
+      block, 'PWM_DUTY', Blockly.mbed.ORDER_ATOMIC) || '1';
+  var pwmName = 'myPwm' + pinKey;
+
+  Blockly.mbed.addInclude('IO_pwm', '#include "IO_pwm.h"');
+  Blockly.mbed.addDeclaration(pwmName, 'IO_pwm '+pwmName+'(' + pinKey + ');');
+
+
+  var code = '';
+  code = code+pwmName + '.pwm_io(' + pwmPeriod + ',' + pwmPulseWidth + ');\n';
+  return code;
+};
+
 
 /**
  * Function for reading an analogue pin value (X).

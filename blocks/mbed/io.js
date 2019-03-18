@@ -150,7 +150,7 @@ Blockly.Blocks.io_pwm_set = {
     this.setColour(Blockly.Blocks.io.HUE);
     this.appendValueInput('PWM_PERIOD')
       .setCheck(Blockly.Types.NUMBER.checkList)
-      .appendField("Set PWM on")
+      .appendField("Set hardware PWM on")
       .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.pwmPins), 'PWM_PIN')
       .appendField('Period:');
     this.appendDummyInput()
@@ -168,6 +168,29 @@ Blockly.Blocks.io_pwm_set = {
   updateFields: function() {
     Blockly.mbed.Boards.refreshBlockFieldDropdown(
         this, 'PWM_PIN', 'pwmPins');
+  }
+};
+
+Blockly.Blocks.io_soft_pwm_set = {
+  init: function() {
+    this.setColour(Blockly.Blocks.io.HUE);
+    this.appendValueInput('PWM_PERIOD')
+      .setCheck(Blockly.Types.NUMBER.checkList)
+      .appendField("Set software PWM on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.pwmPins), 'PWM_PIN')
+      .appendField('Period:');
+    this.appendDummyInput()
+      .appendField('ms, Duty cycle:');
+    this.appendValueInput('PWM_DUTY')
+      .setCheck(Blockly.Types.NUMBER.checkList);
+    this.setInputsInline(true);                
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Set PWM output period and duty cycle");
+  },
+  updateFields: function() {
+    Blockly.mbed.Boards.refreshBlockFieldDropdown(
+        this, 'PWM_PIN', 'digitalPins');
   }
 };
 
