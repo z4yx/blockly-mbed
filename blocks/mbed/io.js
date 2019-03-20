@@ -81,14 +81,16 @@ Blockly.Blocks['io_digitalread'] = {
 Blockly.Blocks['io_interrupt'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'Pin');
-    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'Pin')
         .appendField("attach")
         .appendField(new Blockly.FieldDropdown([["Fall", "fall"], ["Rise", "rise"]]), 'Type')
         .appendField("interrupt");
+    this.appendDummyInput()
+        .appendField("input pin")
+        .appendField(new Blockly.FieldDropdown([["without pulls", "PullNone"], ["with pull down", "PullDown"], ["with pull up", "PullUp"]]), 'Pull');
     this.appendStatementInput("function_body")
         .setCheck(null);
-    this.setInputsInline(true);
+    // this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(Blockly.Blocks.io.HUE);

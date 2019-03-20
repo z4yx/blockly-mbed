@@ -58,6 +58,7 @@ Blockly.mbed['io_interrupt'] = function(block) {
   var pin = block.getFieldValue('Pin');
   var intrName = 'intr' + pin;
   var intrType = block.getFieldValue('Type');
+  var pull = block.getFieldValue('Pull');
   var branch = Blockly.mbed.statementToCode(block, 'function_body');
   
   if (Blockly.mbed.STATEMENT_PREFIX) {
@@ -102,6 +103,7 @@ Blockly.mbed['io_interrupt'] = function(block) {
   Blockly.mbed.addDeclaration(intrName , 'InterruptIn '+intrName+'(' + pin + ');');
   
   var attach_code = intrName + '.'+intrType+'(&' + functionName+');\n';  
+  attach_code += intrName + '.mode(' + pull + ');\n';
   return attach_code;
 };
 
