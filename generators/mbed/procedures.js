@@ -23,16 +23,8 @@ goog.require('Blockly.mbed');
  * @return {null} There is no code added to loop.
  */
 Blockly.mbed['procedures_defreturn'] = function(block) {
-  var funcName = Blockly.mbed.getVariableName(block, 
-      block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = block.getFieldValue('NAME').replace(/ /g, '_');
   var branch = Blockly.mbed.statementToCode(block, 'STACK');
-  var bindPin = block.getFieldValue('InterruptPin') || '';
-  var InterruptInSetupCode=null;
-  if(bindPin){
-      var InterruptIn_instance_name='InterruptIn_' + funcName;
-      Blockly.mbed.addDeclaration(InterruptIn_instance_name, 'InterruptIn '+InterruptIn_instance_name+'(' +bindPin + ');');
-      InterruptInSetupCode = InterruptIn_instance_name + '.rise(&' + funcName + ');';
-  }
   if (Blockly.mbed.STATEMENT_PREFIX) {
     branch = Blockly.mbed.prefixLines(
         Blockly.mbed.STATEMENT_PREFIX.replace(/%1/g,
@@ -51,11 +43,8 @@ Blockly.mbed['procedures_defreturn'] = function(block) {
   // Get arguments with type
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
-    args[x] =
-        Blockly.mbed.getmbedType_(block.getArgType(block.arguments_[x])) +
-        ' ' +
-        Blockly.mbed.getVariableName(block, block.arguments_[x],
-            Blockly.Variables.NAME_TYPE);
+    var name = block.arguments_[x];
+    args[x] = Blockly.mbed.getmbedType_(block.argumentsType_[x]) + ' ' + name;
   }
 
   // Get return type
@@ -70,7 +59,7 @@ Blockly.mbed['procedures_defreturn'] = function(block) {
       branch + returnValue + '}';
   code = Blockly.mbed.scrub_(block, code);
   Blockly.mbed.userFunctions_[funcName] = code;
-  return InterruptInSetupCode;
+  return '';
 };
 
 /**
@@ -81,7 +70,7 @@ Blockly.mbed['procedures_defreturn'] = function(block) {
  */
 Blockly.mbed['procedures_defnoreturn'] =
     Blockly.mbed['procedures_defreturn'];
-Blockly.mbed['InterruptIn']=Blockly.mbed['procedures_defreturn'];
+// Blockly.mbed['InterruptIn']=Blockly.mbed['procedures_defreturn'];
 /**
  * Code generator to create a function call with a return value.
  * mbed code: loop { functionname() }
@@ -89,8 +78,7 @@ Blockly.mbed['InterruptIn']=Blockly.mbed['procedures_defreturn'];
  * @return {array} Completed code with order of operation.
  */
 Blockly.mbed['procedures_callreturn'] = function(block) {
-  var funcName = Blockly.mbed.getVariableName(block, 
-      block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = block.getFieldValue('NAME').replace(/ /g, '_');
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
     args[x] = Blockly.mbed.valueToCode(block, 'ARG' + x,
@@ -107,8 +95,7 @@ Blockly.mbed['procedures_callreturn'] = function(block) {
  * @return {string} Completed code.
  */
 Blockly.mbed['procedures_callnoreturn'] = function(block) {
-  var funcName = Blockly.mbed.getVariableName(block, 
-      block.getFieldValue('NAME'), Blockly.Procedures.NAME_TYPE);
+  var funcName = block.getFieldValue('NAME').replace(/ /g, '_');
   var args = [];
   for (var x = 0; x < block.arguments_.length; x++) {
     args[x] = Blockly.mbed.valueToCode(block, 'ARG' + x,

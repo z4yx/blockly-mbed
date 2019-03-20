@@ -53,12 +53,13 @@ Blockly.Blocks['procedures_defnoreturn'] = {
          (this.workspace.options.parentWorkspace &&
           this.workspace.options.parentWorkspace.options.comments)) &&
         Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT) {
-      this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
+      // this.setCommentText(Blockly.Msg.PROCEDURES_DEFNORETURN_COMMENT);
     }
     this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFNORETURN_TOOLTIP);
     this.setHelpUrl(Blockly.Msg.PROCEDURES_DEFNORETURN_HELPURL);
     this.arguments_ = [];
+    this.argumentsType_ = [];
     this.argumentVarModels_ = [];
     this.setStatements_(true);
     this.statementConnection_ = null;
@@ -156,12 +157,14 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    */
   domToMutation: function(xmlElement) {
     this.arguments_ = [];
+    this.argumentsType_ = [];
     this.argumentVarModels_ = [];
     for (var i = 0, childNode; childNode = xmlElement.childNodes[i]; i++) {
       if (childNode.nodeName.toLowerCase() == 'arg') {
         var varName = childNode.getAttribute('name');
         var varId = childNode.getAttribute('varId');
         this.arguments_.push(varName);
+        this.argumentsType_.push(Blockly.Types.NUMBER);
         var variable = Blockly.Variables.getOrCreateVariablePackage(
             this.workspace, varId, varName, '');
         this.argumentVarModels_.push(variable);
@@ -214,12 +217,14 @@ Blockly.Blocks['procedures_defnoreturn'] = {
   compose: function(containerBlock) {
     // Parameter list.
     this.arguments_ = [];
+    this.argumentsType_ = [];
     this.paramIds_ = [];
     this.argumentVarModels_ = [];
     var paramBlock = containerBlock.getInputTargetBlock('STACK');
     while (paramBlock) {
       var varName = paramBlock.getFieldValue('NAME');
       this.arguments_.push(varName);
+      this.argumentsType_.push(Blockly.Types.NUMBER);
       var variable = this.workspace.getVariable(varName, '');
       this.argumentVarModels_.push(variable);
       this.paramIds_.push(paramBlock.id);
@@ -410,7 +415,7 @@ Blockly.Blocks['procedures_defreturn'] = {
          (this.workspace.options.parentWorkspace &&
           this.workspace.options.parentWorkspace.options.comments)) &&
         Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT) {
-      this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
+      // this.setCommentText(Blockly.Msg.PROCEDURES_DEFRETURN_COMMENT);
     }
     this.setColour(Blockly.Blocks.procedures.HUE);
     this.setTooltip(Blockly.Msg.PROCEDURES_DEFRETURN_TOOLTIP);
@@ -562,6 +567,7 @@ Blockly.Blocks['procedures_callnoreturn'] = {
     // Tooltip is set in renameProcedure.
     this.setHelpUrl(Blockly.Msg.PROCEDURES_CALLNORETURN_HELPURL);
     this.arguments_ = [];
+    this.argumentsType_ = [];
     this.argumentVarModels_ = [];
     this.quarkConnections_ = {};
     this.quarkIds_ = null;
