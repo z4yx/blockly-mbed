@@ -179,7 +179,7 @@ Blockly.Blocks.io_soft_pwm_set = {
     this.appendValueInput('PWM_PERIOD')
       .setCheck(Blockly.Types.NUMBER.checkList)
       .appendField("Set software PWM on")
-      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.pwmPins), 'PWM_PIN')
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'PWM_PIN')
       .appendField('Period:');
     this.appendDummyInput()
       .appendField('ms, Duty cycle:');
