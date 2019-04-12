@@ -397,6 +397,74 @@ Blockly.Blocks.sr501_o = block_read_input("SR501", "Output");
 Blockly.Blocks.sr501_readable = block_value_readable("SR501");
 Blockly.Blocks.sr501_reset = block_value_reset("SR501");
 
+Blockly.Blocks.qei_setup = (function()
+{
+    var setup = {};
+    setup.init = function () {
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("Quadrature Encoder A:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.digitalPins), 'INA')
+            .appendField("B:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.digitalPins), 'INB');
+        this.appendDummyInput()
+            .appendField(new Blockly.FieldNumber(11, 1), 'PulsesPerRev')
+            .appendField("pulses in one revolution")
+        this.setInputsInline(false);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);
+    };
+    setup.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'INA', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'INB', 'digitalPins');
+    };
+    return setup;
+})();
+
+Blockly.Blocks.qei_reset = (function ()
+{
+    var read_value = {};
+    read_value.init = function () {
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("Reset Quadrature Encoder on A:")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'INA');
+        this.setInputsInline(false);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+    };
+    read_value.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'INA', 'digitalPins');
+    };
+    return read_value;
+})();
+
+Blockly.Blocks.qei_get_pulses = (function ()
+{
+    var read_value = {};
+    read_value.init = function () {
+        this.setOutput(true, null);
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("Pulses of Quadrature Encoder on A:")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'INA');
+        this.setInputsInline(false);
+        this.setTooltip("Get Pulses from Quadrature Encoder Interface");
+    };
+    read_value.updateFields = function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'INA', 'digitalPins');
+    };
+    return read_value;
+})();
+
 Blockly.Blocks.analog_setup = {
     init: function () {
         var sensor_name = "GenericAnalog";

@@ -145,6 +145,32 @@ Blockly.mbed['sr501_setup'] = function (block) {
     return "";
 };
 
+Blockly.mbed['qei_setup'] = function (block) {
+    var a = this.getFieldValue('INA');
+    var b = this.getFieldValue('INB');
+    var ppr = this.getFieldValue('PulsesPerRev');
+    var name = 'qei_' + a;
+    Blockly.mbed.addInclude('QEI', '#include "QEI.h"');
+    Blockly.mbed.addDeclaration(name, 'QEI ' + name + '(' + a + ',' + b + ',NC,' + ppr + ',QEI::X4_ENCODING);');
+    return "";
+};
+
+Blockly.mbed['qei_get_pulses'] = function (block) {
+    var a = this.getFieldValue('INA');
+    var name = 'qei_' + a;
+    var code;
+    code = name + '.getPulses()';
+    return [code, Blockly.mbed.ORDER_MEMBER];
+};
+
+Blockly.mbed['qei_reset'] = function (block) {
+    var a = this.getFieldValue('INA');
+    var name = 'qei_' + a;
+    var code;
+    code = name + '.reset();\n';
+    return code;
+};
+
 Blockly.mbed['analog_o'] = function (block) {
     var name = 'analog_' + block.getFieldValue('IO');
     var code;
