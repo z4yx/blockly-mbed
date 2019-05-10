@@ -182,7 +182,7 @@ Blockly.Blocks.io_soft_pwm_set = {
       .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'PWM_PIN')
       .appendField('Period:');
     this.appendDummyInput()
-      .appendField('ms, Duty cycle:');
+      .appendField('us, Duty cycle:');
     this.appendValueInput('PWM_DUTY')
       .setCheck(Blockly.Types.NUMBER.checkList);
     this.setInputsInline(true);                
