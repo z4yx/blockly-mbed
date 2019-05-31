@@ -193,6 +193,7 @@ Blockly.mbed['esp8266_setup'] = function (block) {
   var host = this.getFieldValue('host');
   var ssid = this.getFieldValue('ssid');
   var passwd = this.getFieldValue('passwd');
+  var node = this.getFieldValue('node');
   var TX = this.getFieldValue('TX');
   var RX = this.getFieldValue('RX');
   var sensors = esp8266_build_sensors_actuators(this.getFieldValue('sensors').split(','));
@@ -201,7 +202,7 @@ Blockly.mbed['esp8266_setup'] = function (block) {
   code += "Esp8266 Esp8266client_("+TX+", "+RX+", \"" + ssid + "\", \"" + passwd + "\");\n";
   code += "const char* esp8266sensors_[][2] = {"+sensors+"{NULL,NULL}};\n";
   code += "const char* esp8266actuators_[][2] = {"+actuators+"{NULL,NULL}};\n";
-  code += 'Esp8266client_.connect_mqtt_broker("' + host + '", "cangku", esp8266sensors_, esp8266actuators_);\n';
+  code += 'Esp8266client_.connect_mqtt_broker("' + host + '", "' + node + '", esp8266sensors_, esp8266actuators_);\n';
   return code;
 };
 
