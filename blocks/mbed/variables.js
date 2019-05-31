@@ -73,12 +73,10 @@ Blockly.Blocks['variables_set_type'] = {
    * @this Blockly.Block
    */
   init: function() {
-    this.setHelpUrl('http://mbed.cc/en/Reference/HomePage');
     this.setColour(Blockly.Blocks.variables.HUE);
     this.appendDummyInput()
-        .appendField("Cast");
-    this.appendValueInput('VARIABLE_SETTYPE_INPUT');
-    this.appendDummyInput()
+        .appendField("Cast")
+        .appendField(new Blockly.FieldVariable('item'), 'VARNAME')
         .appendField(Blockly.Msg.MBED_VAR_AS)
         .appendField(new Blockly.FieldDropdown(
                          Blockly.Types.getValidTypeArray()),

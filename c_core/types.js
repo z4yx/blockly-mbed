@@ -72,12 +72,6 @@ Blockly.Types.ARRAY = new Blockly.Type({
   compatibleTypes: []
 });
 
-/** Array/List of items. */
-Blockly.Types.DigitalOut = new Blockly.Type({
-  typeId: 'DigitalOut',
-  typeMsgName: 'MBED_TYPE_DigitalOut',
-  compatibleTypes: []
-});
 /** Null indicate there is no type. */
 Blockly.Types.NULL = new Blockly.Type({
   typeId: 'Null',

@@ -52,12 +52,32 @@ Blockly.mbed['variables_set'] = function(block) {
  * @return {array} Completed code with order of operation.
  */
 Blockly.mbed['variables_set_type'] = function(block) {
-  var argument0 = Blockly.mbed.valueToCode(block, 'VARIABLE_SETTYPE_INPUT',
-      Blockly.mbed.ORDER_ASSIGNMENT) || '0';
-  var varType = Blockly.mbed.getmbedType_(
-      Blockly.Types[block.getFieldValue('VARIABLE_SETTYPE_TYPE')]);
-      if(varType==Blockly.Types.DigitalOut.typeId)
-          argument0=argument0.replace(/"/g,'')
-  var code = '(' + varType + ')(' + argument0 + ')';
+  var varName = Blockly.mbed.getVariableName(block, 
+      block.getFieldValue('VARNAME'), Blockly.Variables.NAME_TYPE);
+  var varType = Blockly.mbed.getVariableType(block, 
+      block.getFieldValue('VARNAME'));
+  var targetType = Blockly.Types[block.getFieldValue('VARIABLE_SETTYPE_TYPE')];
+  // console.log(varName, varType, targetType);
+
+  if (targetType.typeId == varType.typeId) // No casting
+    return [varName, Blockly.mbed.ORDER_ATOMIC];
+
+  var code = '(' + Blockly.mbed.getmbedType_(targetType) + ')(' + varName + ')';
+  if (targetType.typeId == Blockly.Types.TEXT.typeId) {
+    code = 'std::to_string(' + varName + ')';
+  } else if (varType.typeId == Blockly.Types.TEXT.typeId) {
+    switch (targetType.typeId) {
+      case Blockly.Types.SHORT_NUMBER.typeId:
+      case Blockly.Types.NUMBER.typeId:
+        code = 'std::stoi(' + varName + ')';
+        break;
+      case Blockly.Types.LARGE_NUMBER.typeId:
+        code = 'std::stol(' + varName + ')';
+        break;
+      case Blockly.Types.DECIMAL.typeId:
+        code = 'std::stof(' + varName + ')';
+        break;
+      }
+  }
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };

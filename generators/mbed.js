@@ -406,8 +406,6 @@ Blockly.mbed.getmbedType_ = function(typeBlockly) {
       return 'int';
     case Blockly.Types.ARRAY.typeId:
       return Blockly.mbed.getmbedType_(typeBlockly.typeAtom)+' ['+typeBlockly.typeLength+']'+' '+typeBlockly.typeContent; 
-    case Blockly.Types.DigitalOut.typeId:
-      return Blockly.Types.DigitalOut.typeId;
     case Blockly.Blocks.filesystem.FilePointer.typeId:
       return 'FILE*';
     default:
@@ -419,6 +417,16 @@ Blockly.mbed.getVariableName = function(block, varID, OBSOLETE) {
   var v = block.workspace.getVariableById(varID);
   if(v===null) return '';
   return v.name;
+}
+
+Blockly.mbed.getVariableType = function(block, varID) {
+  var varsWithTypes = Blockly.mbed.StaticTyping.collectVarsWithTypes(block.workspace);
+  for (var v in varsWithTypes) {
+    if (v == varID) {
+      return varsWithTypes[v];
+    }
+  }
+  return null;
 }
 
 /** Used for not-yet-implemented block code generators */
