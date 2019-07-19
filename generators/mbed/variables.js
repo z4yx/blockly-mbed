@@ -63,11 +63,36 @@ Blockly.mbed['variables_set_type'] = function(block) {
     return [varName, Blockly.mbed.ORDER_ATOMIC];
 
   var code = '(' + Blockly.mbed.getmbedType_(targetType) + ')(' + varName + ')';
-  if (targetType.typeId == Blockly.Types.TEXT.typeId) {
-    code = 'std::to_string(' + varName + ')';
+  if (varType.typeId == Blockly.Types.ARRAY.typeId) {
+    switch (targetType.typeId) {
+      case Blockly.Types.TEXT.typeId:
+        code = Blockly.mbed.getmbedType_(targetType) + '(' + varName + ')';
+        break;
+      case Blockly.Types.BOOLEAN.typeId:
+      case Blockly.Types.CHARACTER.typeId:
+      case Blockly.Types.SHORT_NUMBER.typeId:
+        code = Blockly.mbed.getmbedType_(targetType) + '(atoi(' + varName + '))';
+        break;
+      case Blockly.Types.NUMBER.typeId:
+        code = 'atoi(' + varName + ')';
+        break;
+      case Blockly.Types.LARGE_NUMBER.typeId:
+        code = 'atol(' + varName + ')';
+        break;
+      case Blockly.Types.DECIMAL.typeId:
+        code = 'float(atof(' + varName + '))';
+        break;
+    }
   } else if (varType.typeId == Blockly.Types.TEXT.typeId) {
     switch (targetType.typeId) {
+      case Blockly.Types.ARRAY.typeId:
+        code = '(' + varName + '.c_str())';
+        break;
+      case Blockly.Types.BOOLEAN.typeId:
+      case Blockly.Types.CHARACTER.typeId:
       case Blockly.Types.SHORT_NUMBER.typeId:
+        code = Blockly.mbed.getmbedType_(targetType) +'(std::stoi(' + varName + '))';
+        break;
       case Blockly.Types.NUMBER.typeId:
         code = 'std::stoi(' + varName + ')';
         break;
@@ -78,6 +103,9 @@ Blockly.mbed['variables_set_type'] = function(block) {
         code = 'std::stof(' + varName + ')';
         break;
       }
+  } else if (targetType.typeId == Blockly.Types.TEXT.typeId) {
+    code = 'std::to_string(' + varName + ')';
   }
+  Blockly.mbed.addInclude('converters', '#include "converters.h"');
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
