@@ -145,7 +145,7 @@ Blockly.mbed['pn532_setup'] = function(block) {
       
   console.assert(serialRX==serialTX);
   var hsuName = 'pn_hsu_' + serialId;
-  var pn532Name = 'pn532_' + serialId;
+  var pn532Name = 'pn532_' + serialRX;
   Blockly.mbed.addDeclaration(hsuName, 'Serial '+hsuName+'(' + serialId_TX+','+serialId + ',115200);');
   Blockly.mbed.addDeclaration(pn532Name, 'PN532Checker '+pn532Name+'(&' + hsuName + ');');
   Blockly.mbed.addInclude('PN532Checker', '#include "pn532_cardcheck.h"');

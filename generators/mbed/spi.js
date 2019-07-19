@@ -214,7 +214,7 @@ Blockly.mbed['w5500_yield'] = function (block) {
 Blockly.mbed['w5500_publish'] = function (block) {
   var topic = Blockly.mbed.valueToCode(block, 'topic', Blockly.mbed.ORDER_COMMA) || '""';
   var value = Blockly.mbed.valueToCode(block, 'value', Blockly.mbed.ORDER_COMMA) || '""';
-  return 'publish_value(client, '+topic+', '+value+');\n';
+  return 'publish_value(w5500client_, '+topic+', '+value+');\n';
 };
 
 Blockly.mbed['w5500_command'] = function (block) {
