@@ -465,6 +465,47 @@ Blockly.Blocks.qei_get_pulses = (function ()
     return read_value;
 })();
 
+Blockly.Blocks.gp2y1010_setup = {
+    init: function () {
+        var sensor_name = "GP2Y1010";
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField(sensor_name+" Pins: Measure")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.analogPins), 'Measure');
+        this.appendDummyInput()
+            .appendField("LED")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.digitalPins), 'LED');
+        this.setInputsInline(true);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);
+    },
+    updateFields: function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'LED', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'Measure', 'analogPins');
+    },
+};
+
+Blockly.Blocks.gp2y1010_read = {
+    init: function () {
+        this.setOutput(true, null);
+        this.setColour(Blockly.Blocks.sensors.HUE);
+        this.appendDummyInput()
+            .appendField("GP2Y1010 measure pin on ")
+            .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.analogPins), 'Measure');
+        this.setInputsInline(false);
+    },
+    updateFields: function () {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'Measure', 'analogPins');
+    },
+};
+
 Blockly.Blocks.analog_setup = {
     init: function () {
         var sensor_name = "GenericAnalog";

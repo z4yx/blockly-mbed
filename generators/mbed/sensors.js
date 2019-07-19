@@ -203,6 +203,23 @@ Blockly.mbed['analog_setup'] = function (block) {
     return "";
 };
 
+Blockly.mbed['gp2y1010_setup'] = function (block) {
+    var led = this.getFieldValue('LED');
+    var mea = this.getFieldValue('Measure');
+    var name = 'gp2y1010_' + mea;
+    Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
+    Blockly.mbed.addDeclaration(name, 'GP2Y1010 ' + name + '(' + led + ',' + mea + ');');
+    return "";
+};
+
+Blockly.mbed['gp2y1010_read'] = function (block) {
+    var mea = this.getFieldValue('Measure');
+    var name = 'gp2y1010_' + mea;
+    var code;
+    code = name + '.getairdata()';
+    return [code, Blockly.mbed.ORDER_MEMBER];
+};
+
 Blockly.mbed['jy901_setup'] = function (block) {
     var tx = this.getFieldValue('TX');
     var rx = this.getFieldValue('RX');
