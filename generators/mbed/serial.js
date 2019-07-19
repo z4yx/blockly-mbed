@@ -198,6 +198,7 @@ Blockly.mbed['esp8266_setup'] = function (block) {
   var RX = this.getFieldValue('RX');
   var sensors = esp8266_build_sensors_actuators(this.getFieldValue('sensors').split(','));
   var actuators = esp8266_build_sensors_actuators(this.getFieldValue('actuators').split(','));
+  Blockly.mbed.addInclude('esp8266', '#include "esp8266.h"');
   var code= "";
   code += "Esp8266 Esp8266client_("+TX+", "+RX+", \"" + ssid + "\", \"" + passwd + "\");\n";
   code += "const char* esp8266sensors_[][2] = {"+sensors+"{NULL,NULL}};\n";

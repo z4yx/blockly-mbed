@@ -185,15 +185,22 @@ function w5500_build_sensors_actuators(arr) {
 }
 
 Blockly.mbed['w5500_setup'] = function (block) {
+  var mosi = this.getFieldValue('MOSI');
+  var miso = this.getFieldValue('MISO');
+  var sck = this.getFieldValue('SCK');
+  var cs = this.getFieldValue('CS');
+  var reset = this.getFieldValue('RESET');
   var host = this.getFieldValue('host');
   var sensors = w5500_build_sensors_actuators(this.getFieldValue('sensors').split(','));
   var actuators = w5500_build_sensors_actuators(this.getFieldValue('actuators').split(','));
+  Blockly.mbed.addInclude('w5500', '#include "networking.h"');
+  Blockly.mbed.addDeclaration('w5500_wiz', 'WIZnetInterface ' + 'w5500_wiz' + '(' + mosi + ',' + miso + ',' + sck + ',' + cs + ',' + reset + ');');
   var code= "";
   code += "MQTTSocket w5500sock_;\n";
   code += "MClient w5500client_(w5500sock_);\n";
   code += "const char* w5500sensors_[][2] = {"+sensors+"{NULL,NULL}};\n";
   code += "const char* w5500actuators_[][2] = {"+actuators+"{NULL,NULL}};\n";
-  code += 'networking_init(sock, client, "' + host + '", w5500sensors_, w5500actuators_, W5500_on_command);\n';
+  code += 'networking_init(w5500_wiz, w5500sock_, w5500client_, "' + host + '", w5500sensors_, w5500actuators_, W5500_on_command);\n';
   return code;
 };
 

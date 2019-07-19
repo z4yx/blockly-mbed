@@ -317,7 +317,29 @@ Blockly.Blocks.w5500_setup = {
   init: function(){
       this.setColour(Blockly.Blocks.spi.HUE);
       this.appendDummyInput()
-          .appendField("W5500 connects to")
+          .appendField("W5500 on: MOSI")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+          .appendField("MISO")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'MISO');
+      this.appendDummyInput()
+          .appendField("SCK")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'SCK')
+          .appendField("CSn")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'CS')
+          .appendField("RESET")
+          .appendField(
+              new Blockly.FieldDropdown(
+                  Blockly.mbed.Boards.selected.digitalPins), 'RESET');
+      this.appendDummyInput()
+          .appendField("connects to")
           .appendField(
               new Blockly.FieldTextInput("192.168.12.1"), 'host');
       this.appendDummyInput()
