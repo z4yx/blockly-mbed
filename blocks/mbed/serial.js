@@ -107,6 +107,79 @@ Blockly.Blocks.serial_setup.updateFields = function() {
         this, 'SPEED', 'serialSpeed');
 };
 
+Blockly.Blocks.hxd019_setup = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendDummyInput()
+            .appendField("HXD019 on SDA:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSDA), 'HXD_SDA')
+            .appendField("SCL:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSCL), 'HXD_SCL')
+            .appendField("Busy:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.digitalPins), 'HXD_BUSY');
+        this.appendDummyInput()
+            .appendField("with EEPROM on SDA:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSDA), 'EEP_SDA')
+            .appendField("SCL:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSCL), 'EEP_SCL');
+        this.setInputsInline(false);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);    
+    },
+    updateFields: function() {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'HXD_SDA', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'HXD_SCL', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'HXD_BUSY', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'EEP_SDA', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'EEP_SCL', 'digitalPins');
+    },
+};
+
+Blockly.Blocks.hxd019_learn = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendValueInput("CH")
+            .setCheck("Number")
+            .appendField("HXD019 start learning on channel");
+        this.setInputsInline(true);
+        /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+            it is very hard to detect whether the serial is initialized or not
+        */
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);    
+    },
+};
+
+Blockly.Blocks.hxd019_emit = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendValueInput("CH")
+            .setCheck("Number")
+            .appendField("HXD019 emit on channel");
+        this.setInputsInline(true);
+        /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
+            it is very hard to detect whether the serial is initialized or not
+        */
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);    
+    },
+};
+
 Blockly.Blocks.pn532_setup = {
     init: function() {
         this.setColour(Blockly.Blocks.serial.HUE);
