@@ -341,7 +341,10 @@ Blockly.Blocks.w5500_setup = {
       this.appendDummyInput()
           .appendField("connects to")
           .appendField(
-              new Blockly.FieldTextInput("192.168.12.1"), 'host');
+              new Blockly.FieldTextInput("192.168.12.1"), 'host')
+          .appendField("with name")
+          .appendField(
+              new Blockly.FieldTextInput("node1"), 'node');
       this.appendDummyInput()
           .appendField("Sensors: ")
           .appendField(

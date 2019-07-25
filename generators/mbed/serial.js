@@ -147,7 +147,7 @@ Blockly.mbed['pn532_setup'] = function(block) {
   var hsuName = 'pn_hsu_' + serialRX;
   var pn532Name = 'pn532_' + serialRX;
   var serialSpeed = "115200";
-  Blockly.mbed.addDeclaration(hsuName, 'Serial '+hsuName+'(' + serialId_TX+','+serialId + ');');
+  Blockly.mbed.addDeclaration(hsuName, 'HardwareSerial '+hsuName+'(' + serialId_TX+','+serialId + ');');
   Blockly.mbed.addDeclaration(pn532Name, 'PN532Checker '+pn532Name+'(&' + hsuName + ');');
   Blockly.mbed.addInclude('PN532Checker', '#include "pn532_cardcheck.h"');
   var serialSetupCode = hsuName + '.baud(' + serialSpeed + ');';
