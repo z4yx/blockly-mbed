@@ -137,6 +137,37 @@ Blockly.mbed['serial_attach'] = function(block) {
   return attach_code;
 };
 
+Blockly.mbed['syn6288_setup'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_ID');
+  var serialId_TX = block.getFieldValue('SERIAL_ID_TX');
+  var serialRX=Blockly.mbed.Boards.selected.serialMapper[serialId];
+  var serialTX=Blockly.mbed.Boards.selected.serialMapper[serialId_TX];
+      
+  console.assert(serialRX==serialTX);
+  var hsuName = 'syn6288_' + serialRX;
+  Blockly.mbed.addDeclaration(hsuName, 'Serial '+hsuName+'(' + serialId_TX+','+serialId + ');');
+  Blockly.mbed.addInclude('SYN6288', '#include "SYN6288.h"');
+  var code = '';
+  return code;
+};
+
+Blockly.mbed['syn6288_speak'] = function(block) {
+  var serialId = block.getFieldValue('SERIAL_ID');
+  var TEXT = block.getFieldValue('TEXT');
+  var hsuName = 'syn6288_' + serialId;
+  var hexStr = '';
+  try{
+    var gbk = GBK.encode(TEXT);
+    console.debug(gbk);
+    var hexArr = gbk.map(function(n){var h = n.toString(16);if(h.length==1)h='0'+h;return '\\x'+h;});
+    hexStr = hexArr.join('');
+  }catch(e){
+    console.error(e);
+  }
+  var code = 'voice_play("'+hexStr+'",&'+hsuName+');\n';
+  return code;
+};
+
 Blockly.mbed['pn532_setup'] = function(block) {
   var serialId = block.getFieldValue('SERIAL_ID');
   var serialId_TX = block.getFieldValue('SERIAL_ID_TX');
