@@ -233,9 +233,8 @@ Blockly.Blocks.syn6288_speak = {
         this.appendDummyInput()
             .appendField("SYN6288 on")
             .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.serialPins), 'SERIAL_ID');
-        this.appendDummyInput()
-            .appendField("Say")
-            .appendField(new Blockly.FieldTextInput('你好'), 'TEXT');
+        this.appendValueInput('TEXT')
+            .appendField("Say");
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);

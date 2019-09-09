@@ -153,18 +153,11 @@ Blockly.mbed['syn6288_setup'] = function(block) {
 
 Blockly.mbed['syn6288_speak'] = function(block) {
   var serialId = block.getFieldValue('SERIAL_ID');
-  var TEXT = block.getFieldValue('TEXT');
+
+  var textArg = Blockly.mbed.valueToCode(
+    block, 'TEXT', Blockly.mbed.ORDER_COMMA) || '""';
   var hsuName = 'syn6288_' + serialId;
-  var hexStr = '';
-  try{
-    var gbk = GBK.encode(TEXT);
-    console.debug(gbk);
-    var hexArr = gbk.map(function(n){var h = n.toString(16);if(h.length==1)h='0'+h;return '\\x'+h;});
-    hexStr = hexArr.join('');
-  }catch(e){
-    console.error(e);
-  }
-  var code = 'voice_play("'+hexStr+'",&'+hsuName+');\n';
+  var code = 'voice_play('+textArg+',&'+hsuName+');\n';
   return code;
 };
 

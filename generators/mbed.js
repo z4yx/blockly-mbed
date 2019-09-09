@@ -330,7 +330,25 @@ Blockly.mbed.quote_ = function(string) {
                  .replace(/\n/g, '\\\n')
                  .replace(/\$/g, '\\$')
                  .replace(/'/g, '\\\'');
-  return '\"' + string + '\"';
+  
+  var hexStr = '';
+  try{
+    var gbk = GBK.encode(string);
+    console.debug(gbk);
+    var hexArr = gbk.map(function(n){
+      if(n>=0x20&&n<0x80) { // visible chars
+        return String.fromCharCode(n);
+      }
+      var h = n.toString(16);
+      if(h.length==1)
+        h='0'+h;
+      return '\\x'+h;
+    });
+    hexStr = hexArr.join('');
+  }catch(e){
+    console.error(e);
+  }
+  return '\"' + hexStr + '\"';
 };
 
 /**
