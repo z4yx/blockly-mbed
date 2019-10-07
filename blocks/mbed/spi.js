@@ -346,6 +346,13 @@ Blockly.Blocks.w5500_setup = {
           .appendField(
               new Blockly.FieldTextInput("node1"), 'node');
       this.appendDummyInput()
+          .appendField("Auth(optional): user")
+          .appendField(
+              new Blockly.FieldTextInput(""), 'mqttUser')
+          .appendField("password")
+          .appendField(
+              new Blockly.FieldTextInput(""), 'mqttPasswd');
+      this.appendDummyInput()
           .appendField("Sensors: ")
           .appendField(
             new Blockly.FieldTextInput("light,switch"), 'sensors');
