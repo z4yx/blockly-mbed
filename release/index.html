@@ -481,7 +481,7 @@
     <block type="gp2y1010_read"></block>
   </category>
   <sep></sep>
-  <category id="catFS" name="Filesystem">
+  <category id="catFS" name="Storage">
     <block type="sd_fs"></block>
     <block type="fs_fopen">
       <value name="PATH">
@@ -501,6 +501,32 @@
       </value>
     </block>
     <block type="fs_fclose">
+    </block>
+    <block type="i2c_eep_setup">
+    </block>
+    <block type="i2c_eep_read">
+      <value name="Length">
+        <block type="math_number">
+          <field name="NUM">4</field>
+        </block>
+      </value>
+      <value name="Addr">
+        <block type="math_number">
+          <field name="NUM">0</field>
+        </block>
+      </value>
+    </block>
+    <block type="i2c_eep_write">
+      <value name="Data">
+        <block type="text">
+          <field name="TEXT">GOOD</field>
+        </block>
+      </value>
+      <value name="Addr">
+        <block type="math_number">
+          <field name="NUM">0</field>
+        </block>
+      </value>
     </block>
   </category>
   <sep></sep>

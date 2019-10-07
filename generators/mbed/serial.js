@@ -253,11 +253,8 @@ Blockly.mbed['hxd019_setup'] = function(block) {
   var HXDsda = this.getFieldValue('HXD_SDA');
   var HXDscl = this.getFieldValue('HXD_SCL');
   var HXDBusy = this.getFieldValue('HXD_BUSY');
-  var EEPsda = this.getFieldValue('EEP_SDA');
-  var EEPscl = this.getFieldValue('EEP_SCL');
 
-  var eepName ='eep_for_hxd';
-  Blockly.mbed.addDeclaration(eepName , 'EEPROM '+eepName +'(' + EEPsda+','+EEPscl+',0,EEPROM::T24C02);');
+  var eepName ='eeprom';
   Blockly.mbed.addInclude('hxd019', '#include "ir.h"');
   
   var code='IR_Init(' + HXDscl + ',' + HXDsda + ',' + HXDBusy + ',' + eepName + ');\n';
@@ -275,5 +272,30 @@ Blockly.mbed['hxd019_emit'] = function (block) {
   var ch = Blockly.mbed.valueToCode(block, 'CH', Blockly.mbed.ORDER_ATOMIC) || 1;
   var code;
   code = 'IR_Emit(' + ch + ');\n';
+  return code;
+};
+
+
+Blockly.mbed['i2c_eep_setup'] = function(block) {
+  var EEPsda = this.getFieldValue('EEP_SDA');
+  var EEPscl = this.getFieldValue('EEP_SCL');
+  var eepName ='eeprom';
+  Blockly.mbed.addDeclaration(eepName , 'EEPROM '+eepName +'(' + EEPsda+','+EEPscl+',0,EEPROM::T24C02);');
+  Blockly.mbed.addInclude('eeprom', '#include "eeprom.h"');
+  return '';
+};
+
+Blockly.mbed['i2c_eep_read'] = function (block) {
+  var Length = Blockly.mbed.valueToCode(block, 'Length', Blockly.mbed.ORDER_COMMA) || 1;
+  var Addr = Blockly.mbed.valueToCode(block, 'Addr', Blockly.mbed.ORDER_COMMA) || 0;
+  var eepName ='eeprom';
+  return ['simple_eeprom_read(' + eepName + ',' + Addr + ',' + Length + ')', Blockly.mbed.ORDER_UNARY_POSTFIX];
+};
+
+Blockly.mbed['i2c_eep_write'] = function (block) {
+  var Data = Blockly.mbed.valueToCode(block, 'Data', Blockly.mbed.ORDER_COMMA) || 1;
+  var Addr = Blockly.mbed.valueToCode(block, 'Addr', Blockly.mbed.ORDER_COMMA) || 0;
+  var eepName ='eeprom';
+  var code = 'simple_eeprom_write(' + eepName + ',' + Addr + ',' + Data + ');\n';
   return code;
 };

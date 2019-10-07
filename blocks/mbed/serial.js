@@ -123,15 +123,6 @@ Blockly.Blocks.hxd019_setup = {
             .appendField(
                 new Blockly.FieldDropdown(
                     Blockly.mbed.Boards.selected.digitalPins), 'HXD_BUSY');
-        this.appendDummyInput()
-            .appendField("with EEPROM on SDA:")
-            .appendField(
-                new Blockly.FieldDropdown(
-                    Blockly.mbed.Boards.selected.i2cPinsSDA), 'EEP_SDA')
-            .appendField("SCL:")
-            .appendField(
-                new Blockly.FieldDropdown(
-                    Blockly.mbed.Boards.selected.i2cPinsSCL), 'EEP_SCL');
         this.setInputsInline(false);
         this.setPreviousStatement(false, null);
         this.setNextStatement(false, null);    
@@ -175,6 +166,60 @@ Blockly.Blocks.hxd019_emit = {
         /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
             it is very hard to detect whether the serial is initialized or not
         */
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);    
+    },
+};
+
+
+Blockly.Blocks.i2c_eep_setup = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendDummyInput()
+            .appendField("EEPROM on SDA:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSDA), 'EEP_SDA')
+            .appendField("SCL:")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.i2cPinsSCL), 'EEP_SCL');
+        this.setInputsInline(false);
+        this.setPreviousStatement(false, null);
+        this.setNextStatement(false, null);    
+    },
+    updateFields: function() {
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'EEP_SDA', 'digitalPins');
+        Blockly.mbed.Boards.refreshBlockFieldDropdown(
+            this, 'EEP_SCL', 'digitalPins');
+    },
+};
+
+Blockly.Blocks.i2c_eep_read = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendValueInput("Length")
+            .setCheck("Number")
+            .appendField("EEPROM: Read ");
+        this.appendValueInput("Addr")
+            .setCheck("Number")
+            .appendField("bytes on address");
+        this.setInputsInline(true);
+        this.setOutput(true, "String");
+    },
+};
+
+Blockly.Blocks.i2c_eep_write = {
+    init: function() {
+        this.setColour(Blockly.Blocks.serial.HUE);
+        this.appendValueInput("Data")
+            .setCheck("String")
+            .appendField("EEPROM: Write ");
+        this.appendValueInput("Addr")
+            .setCheck("Number")
+            .appendField("to address");
+        this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);    
     },
