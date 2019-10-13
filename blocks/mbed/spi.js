@@ -411,3 +411,71 @@ Blockly.Blocks.w5500_command = {
       this.callbackName_ = 'W5500_on_command';
   }
 };
+
+Blockly.Blocks.ld3320_setup = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.appendDummyInput()
+      .appendField("LD3320 on: MOSI")
+      .appendField(
+        new Blockly.FieldDropdown(
+          Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("MISO")
+      .appendField(
+        new Blockly.FieldDropdown(
+          Blockly.mbed.Boards.selected.digitalPins), 'MISO');
+    this.appendDummyInput()
+      .appendField("SCK")
+      .appendField(
+        new Blockly.FieldDropdown(
+          Blockly.mbed.Boards.selected.digitalPins), 'SCK')
+      .appendField("NSS")
+      .appendField(
+        new Blockly.FieldDropdown(
+          Blockly.mbed.Boards.selected.digitalPins), 'CS')
+      .appendField("RST")
+      .appendField(
+        new Blockly.FieldDropdown(
+          Blockly.mbed.Boards.selected.digitalPins), 'RESET');
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+  },
+};
+
+Blockly.Blocks.ld3320_read = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setOutput(true, null);
+    this.setInputsInline(false);
+    this.appendDummyInput()
+      .appendField("Read from LD3320")
+      // .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI');
+  },
+};
+Blockly.Blocks.ld3320_start = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+      .appendField("Start LD3320")
+      // .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI');
+  },
+};
+Blockly.Blocks.ld3320_add = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(false);
+    this.appendDummyInput()
+      .appendField("Add command")
+      .appendField(new Blockly.FieldTextInput("ni hao"), 'words')
+      .appendField("ID")
+      .appendField(new Blockly.FieldNumber("0"), 'id');
+    this.appendDummyInput()
+      .appendField("to LD3320")
+      // .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI');
+  },
+};

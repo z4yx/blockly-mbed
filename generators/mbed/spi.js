@@ -272,3 +272,34 @@ Blockly.mbed['w5500_command'] = function (block) {
 
   return '';
 };
+
+Blockly.mbed['ld3320_setup'] = function (block) {
+  var mosi = this.getFieldValue('MOSI');
+  var miso = this.getFieldValue('MISO');
+  var sck = this.getFieldValue('SCK');
+  var cs = this.getFieldValue('CS');
+  var reset = this.getFieldValue('RESET');
+  Blockly.mbed.addInclude('ld3320', '#include "ld3320.h"');
+  Blockly.mbed.addDeclaration('ld3320_inst', 'VoiceRecognition ' + 'ld3320_inst' + '(' + cs + ',' + miso + ',' + mosi+ ',' + sck+ ',' + reset + ');');
+  var code = "ld3320_inst.init();\n";
+  return code;
+};
+
+Blockly.mbed['ld3320_start'] = function (block) {
+  var code = "ld3320_inst.start();\n";
+  return code;
+};
+
+Blockly.mbed['ld3320_add'] = function (block) {
+  var words = this.getFieldValue('words');
+  var id = this.getFieldValue('id');
+  var code = "ld3320_inst.addCommand(\"" + words + "\", "+id+");\n";
+  return code;
+};
+
+Blockly.mbed['ld3320_read'] = function (block) {
+  var name = 'ld3320_inst';
+  var code;
+  code = name + '.read()';
+  return [code, Blockly.mbed.ORDER_MEMBER];
+};
