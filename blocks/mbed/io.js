@@ -294,3 +294,62 @@ Blockly.Blocks['io_pulsetimeout'] = {
     return Blockly.Types.NUMBER;
   }
 };
+
+
+Blockly.Blocks.pca9685_setup = {};
+Blockly.Blocks.pca9685_setpulse = {};
+
+Blockly.Blocks.pca9685_setup.init = function () {
+  this.setColour(Blockly.Blocks.io.HUE);
+  this.appendDummyInput()
+    .appendField("Setup PCA9685 SDA:", 'PCA9685_NAME')
+    .appendField(
+      new Blockly.FieldDropdown(
+        Blockly.mbed.Boards.selected.i2cPinsSDA), 'I2C_SDA')
+    .appendField("SCL:")
+    .appendField(
+      new Blockly.FieldDropdown(
+        Blockly.mbed.Boards.selected.i2cPinsSCL), 'I2C_SCL');
+  this.setInputsInline(true);
+  this.setPreviousStatement(true, null);
+  this.setNextStatement(true, null);
+};
+Blockly.Blocks.pca9685_setup.getPCA9685SetupInstance = function () {
+  return Blockly.mbed.Boards.selected.i2cMapper[this.getFieldValue('I2C_SDA')];
+};
+Blockly.Blocks.pca9685_setup.onchange = function () {
+  if (!this.workspace) { return; }  // Block has been deleted.
+
+  //Get the PCA9685 instance from this block
+  var sda = this.getFieldValue('I2C_SDA');
+  var scl = this.getFieldValue('I2C_SCL');
+  var sdaIns = Blockly.mbed.Boards.selected.i2cMapper[sda];
+  var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
+  if (sdaIns == sclIns) {
+    this.setWarningText(null, 'i2c_mismatch');
+    this.setFieldValue('Setup PCA9685 on %1 SDA:'.replace('%1', sdaIns), 'PCA9685_NAME');
+  }
+  else {
+    this.setWarningText(sdaIns + " mismatches " + sclIns, 'i2c_mismatch');
+    this.setFieldValue('Setup PCA9685 SDA', 'PCA9685_NAME');
+  }
+};
+Blockly.Blocks.pca9685_setup.updateFields = function () {
+  Blockly.mbed.Boards.refreshBlockFieldDropdown(
+    this, 'I2C_SDA', 'digitalPins');
+  Blockly.mbed.Boards.refreshBlockFieldDropdown(
+    this, 'I2C_SCL', 'digitalPins');
+};
+Blockly.Blocks.pca9685_setpulse.init = function () {
+  this.setColour(Blockly.Blocks.io.HUE);
+  this.appendValueInput('CH')
+    .appendField("Set output channel");
+  this.appendValueInput('Angle')
+    .appendField("of PCA9685 on")
+    .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'I2C_Pins')
+    .appendField("to");
+  this.setInputsInline(false);
+  this.setPreviousStatement(true, null);
+  this.setNextStatement(true, null);
+  this.setTooltip("Set the output value of PCA9685");
+};

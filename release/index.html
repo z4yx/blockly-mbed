@@ -396,6 +396,19 @@
       </value>
     </block>
     <block type="stepper_wait"></block>
+    <block type="pca9685_setup"></block>
+    <block type="pca9685_setpulse">
+      <value name="CH">
+        <block type="math_number">
+          <field name="NUM">1</field>
+        </block>
+      </value>
+      <value name="Angle">
+        <block type="math_number">
+          <field name="NUM">90</field>
+        </block>
+      </value>
+    </block>
     </category>
   <sep></sep>
   <category id="catComms" name="Comms">

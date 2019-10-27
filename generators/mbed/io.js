@@ -239,3 +239,25 @@ Blockly.mbed['io_pulsetimeout'] = function(block) {
 
   return [code, Blockly.mbed.ORDER_ATOMIC];
 }; 
+
+Blockly.mbed['pca9685_setpulse'] = function (block) {
+  // var name = 'pca9685_' + block.getFieldValue('I2C_Pins');
+  var ch = Blockly.mbed.valueToCode(block, "CH", Blockly.mbed.ORDER_ATOMIC);
+  var angle = Blockly.mbed.valueToCode(block, "Angle", Blockly.mbed.ORDER_ATOMIC);
+  var code;
+  code = 'setServoPulse('+ch+','+angle+',0x80,20);\n';
+  return code;
+};
+
+Blockly.mbed['pca9685_setup'] = function (block) {
+  var sda = this.getFieldValue('I2C_SDA');
+  var scl = this.getFieldValue('I2C_SCL');
+  // var sdaIns = Blockly.mbed.Boards.selected.i2cMapper[sda];
+  // var sclIns = Blockly.mbed.Boards.selected.i2cMapper[scl];
+  // console.assert(sdaIns == sclIns);
+  var name = 'pwm';//'pca9685_' + sdaIns;
+  Blockly.mbed.addInclude('PCA9685', '#include "PCA9685.h"');
+  Blockly.mbed.addDeclaration(name, 'PCA9685 ' + name + '(' + sda + ',' + scl + ');');
+  var code = 'initServoDriver();\n';
+  return code;
+};
