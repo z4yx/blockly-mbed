@@ -16,15 +16,21 @@ goog.provide('Blockly.mbed.serial');
 
 goog.require('Blockly.mbed');
 
+function warp_with_p(content_str)
+{
+  Blockly.mbed.addInclude('converters', '#include "converters.h"');
+  if (!content_str.startsWith('_p(')) content_str = '_p(' + content_str + ')';
+  return content_str;
+}
+
 Blockly.mbed['print_content'] = function(block) {
   var format_content = Blockly.mbed.valueToCode(block, 'format_content', Blockly.mbed.ORDER_COMMA);
   var join_content = Blockly.mbed.valueToCode(block, 'join_content', Blockly.mbed.ORDER_COMMA) || '';
-  // TODO: Assemble mbed into code variable.
   var code;
   if(join_content)  
-     code = format_content+','+join_content;
+    code = warp_with_p(format_content) + ',' + warp_with_p(join_content);
   else
-     code = format_content;
+    code = warp_with_p(format_content);
   return [code, Blockly.mbed.ORDER_ATOMIC];
 };
 /**
@@ -46,9 +52,9 @@ Blockly.mbed['serial_print'] = function(block) {
   }
   var code;
   if(content_str)
-    code = serialName + '.printf(' + content+','+content_str + ');\n';  
+    code = serialName + '.printf(' + content + ',' + warp_with_p(content_str) + ');\n';  
   else
-    code = serialName + '.printf(' + content + ');\n';        
+    code = serialName + '.printf(' + content + ');\n';
   return code;
 };
 /** Get character. This is a blocking call, waiting for a character
