@@ -196,8 +196,8 @@ Blockly.mbed.finish = function(code) {
 
   var allDefs = includes.join('\n') + variables.join('\n') +
       definitions.join('\n') + functions.join('\n\n');
-  //var setup = 'void setup() {' + setups.join('\n  ') + '\n}\n\n';
-  var loop = 'int main() {\n  ' + code.replace(/\n/g, '\n  ') + '\n}';
+  var setup = setups.join('\n');
+  var loop = 'int main() {\n  ' + setup + '\n\n' + code.replace(/\n/g, '\n  ') + '\n}';
   return allDefs + loop;
 };
 

@@ -342,13 +342,21 @@ Blockly.Blocks.pca9685_setup.updateFields = function () {
 };
 Blockly.Blocks.pca9685_setpulse.init = function () {
   this.setColour(Blockly.Blocks.io.HUE);
+  this.appendValueInput('I2C_ADDR')
+    .appendField("Set PCA9685");
   this.appendValueInput('CH')
-    .appendField("Set output channel");
-  this.appendValueInput('Angle')
-    .appendField("of PCA9685 on")
-    .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.i2cPins), 'I2C_Pins')
-    .appendField("to");
-  this.setInputsInline(false);
+    .setCheck(Blockly.Types.NUMBER.checkList)
+    .appendField("channel");
+  this.appendValueInput('PWM_PERIOD')
+    .setCheck(Blockly.Types.NUMBER.checkList)
+    .appendField('Period:');
+  this.appendDummyInput()
+    .appendField('ms, Duty cycle:');
+  this.appendValueInput('PWM_DUTY')
+    .setCheck(Blockly.Types.NUMBER.checkList);
+  this.appendDummyInput()
+    .appendField('ms');
+  this.setInputsInline(true);
   this.setPreviousStatement(true, null);
   this.setNextStatement(true, null);
   this.setTooltip("Set the output value of PCA9685");

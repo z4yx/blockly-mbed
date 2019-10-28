@@ -439,14 +439,24 @@
     <block type="stepper_wait"></block>
     <block type="pca9685_setup"></block>
     <block type="pca9685_setpulse">
+      <value name="I2C_ADDR">
+        <block type="math_number">
+          <field name="NUM">128</field>
+        </block>
+      </value>
       <value name="CH">
         <block type="math_number">
           <field name="NUM">1</field>
         </block>
       </value>
-      <value name="Angle">
+      <value name="PWM_PERIOD">
         <block type="math_number">
-          <field name="NUM">90</field>
+          <field name="NUM">20</field>
+        </block>
+      </value>
+      <value name="PWM_DUTY">
+        <block type="math_number">
+          <field name="NUM">5</field>
         </block>
       </value>
     </block>
