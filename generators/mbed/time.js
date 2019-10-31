@@ -22,8 +22,8 @@ goog.require('Blockly.mbed');
  */
  Blockly.mbed['time_delay'] = function(block) {
   var delayTime = Blockly.mbed.valueToCode(
-      block, 'DELAY_TIME_MILI', Blockly.mbed.ORDER_ATOMIC) || '0';
-  var code = 'wait(' + delayTime/1000.0 + ');\n';
+    block, 'DELAY_TIME_MILI', Blockly.mbed.ORDER_ATOMIC) || '0';
+  var code = 'wait_ms(' + delayTime + ');\n';
   return code;
 };
 
@@ -36,7 +36,7 @@ goog.require('Blockly.mbed');
  Blockly.mbed['time_delaymicros'] = function(block) {
   var delayTimeMs = Blockly.mbed.valueToCode(
       block, 'DELAY_TIME_MICRO', Blockly.mbed.ORDER_ATOMIC) || '0';
-  var code = 'delayMicroseconds(' + delayTimeMs + ');\n';
+  var code = 'wait_us(' + delayTimeMs + ');\n';
   return code;
 };
 
