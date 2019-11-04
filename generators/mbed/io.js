@@ -247,7 +247,7 @@ Blockly.mbed['pca9685_setpulse'] = function (block) {
   var duty = Blockly.mbed.valueToCode(block, "PWM_DUTY", Blockly.mbed.ORDER_MULTIPLICATIVE);
   var code = '';
   code += 'pwm.setPWMFreq(1000/' + period + ',' + addr + ');\n';
-  code += 'pwm.setPWM('+ch+',0,4096*'+duty+'/' + period + ','+addr+');\n';
+  code += 'pwm.setPWM('+ch+',0,4095*'+duty+'/' + period + ','+addr+');\n';
   Blockly.mbed.addSetup('pca_' + addr, 'pwm.setPrescale(121,'+addr+');', false);
   return code;
 };
