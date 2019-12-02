@@ -156,6 +156,9 @@ Blockly.mbed.Boards['profiles']['nucleo_f103rb']={
     i2cPinsSDA: [['PB_9','PB_9'],['PB_11','PB_11'],['PB_7','PB_7']],
     i2cPinsSCL: [['PB_8','PB_8'],['PB_10','PB_10'],['PB_6','PB_6']],
     i2cSpeed: [['100kHz', '100000L'], ['400kHz', '400000L']],
+    eepModels: [["24C01", "T24C01"], ["24C02", "T24C02"], ["24C04", "T24C04"], ["24C08", "T24C08"], ["24C16", "T24C16"],
+      ["24C32", "T24C32"], ["24C64", "T24C64"], ["24C128", "T24C128"], ["24C256", "T24C256"],
+      ["24C512", "T24C512"], ["24C1024", "T24C1024"], ["24C1025", "T24C1025"]],
     builtinLed: [['LED_1', 'PA_5']],
     interrupt: [['interrupt0', '2'], ['interrupt1', '3']],
     irqNumber: [

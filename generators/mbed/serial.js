@@ -285,8 +285,9 @@ Blockly.mbed['hxd019_emit'] = function (block) {
 Blockly.mbed['i2c_eep_setup'] = function(block) {
   var EEPsda = this.getFieldValue('EEP_SDA');
   var EEPscl = this.getFieldValue('EEP_SCL');
+  var EEPtype = this.getFieldValue('EEP_TYPE');
   var eepName ='eeprom';
-  Blockly.mbed.addDeclaration(eepName , 'EEPROM '+eepName +'(' + EEPsda+','+EEPscl+',0,EEPROM::T24C02);');
+  Blockly.mbed.addDeclaration(eepName , 'EEPROM '+eepName +'(' + EEPsda+','+EEPscl+',0,EEPROM::'+EEPtype+');');
   Blockly.mbed.addInclude('eeprom', '#include "eeprom.h"');
   return '';
 };

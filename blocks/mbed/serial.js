@@ -134,10 +134,6 @@ Blockly.Blocks.hxd019_setup = {
             this, 'HXD_SCL', 'digitalPins');
         Blockly.mbed.Boards.refreshBlockFieldDropdown(
             this, 'HXD_BUSY', 'digitalPins');
-        Blockly.mbed.Boards.refreshBlockFieldDropdown(
-            this, 'EEP_SDA', 'digitalPins');
-        Blockly.mbed.Boards.refreshBlockFieldDropdown(
-            this, 'EEP_SCL', 'digitalPins');
     },
 };
 
@@ -176,7 +172,11 @@ Blockly.Blocks.i2c_eep_setup = {
     init: function() {
         this.setColour(Blockly.Blocks.serial.HUE);
         this.appendDummyInput()
-            .appendField("EEPROM on SDA:")
+            .appendField("EEPROM")
+            .appendField(
+                new Blockly.FieldDropdown(
+                    Blockly.mbed.Boards.selected.eepModels), 'EEP_TYPE')
+            .appendField("on SDA:")
             .appendField(
                 new Blockly.FieldDropdown(
                     Blockly.mbed.Boards.selected.i2cPinsSDA), 'EEP_SDA')
