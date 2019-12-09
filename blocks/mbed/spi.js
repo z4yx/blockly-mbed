@@ -287,6 +287,18 @@ Blockly.Blocks.nrf24_readable = {
   },
 };
 
+Blockly.Blocks.nrf24_check_irq = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+      .appendField("nRF24L01 on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("check IRQ");
+  },
+};
+
 Blockly.Blocks.nrf24_read = {
   init: function () {
     this.setColour(Blockly.Blocks.spi.HUE);
@@ -300,6 +312,18 @@ Blockly.Blocks.nrf24_read = {
   },
 };
 
+Blockly.Blocks.nrf24_checksum = {
+  init: function () {
+    this.setOutput(true, null);
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.appendDummyInput()
+      .appendField("nRF24L01 on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("get checksum of")
+      .appendField(new Blockly.FieldVariable('buf'), 'BUF');
+  },
+};
+
 Blockly.Blocks.nrf24_write = {
   init: function () {
     this.setColour(Blockly.Blocks.spi.HUE);
@@ -310,6 +334,21 @@ Blockly.Blocks.nrf24_write = {
         .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
         .appendField("send data")
         .appendField(new Blockly.FieldVariable('buf'), 'BUF');
+  },
+};
+
+Blockly.Blocks.nrf24_write_len = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+      .appendField("nRF24L01 on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("send data")
+      .appendField(new Blockly.FieldVariable('buf'), 'BUF')
+      .appendField("length")
+      .appendField(new Blockly.FieldVariable('len'), 'LEN');
   },
 };
 
