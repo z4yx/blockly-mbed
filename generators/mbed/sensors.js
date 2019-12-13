@@ -223,13 +223,15 @@ Blockly.mbed['gp2y1010_read'] = function (block) {
 Blockly.mbed['jy901_setup'] = function (block) {
     var tx = this.getFieldValue('TX');
     var rx = this.getFieldValue('RX');
+    var baud = this.getFieldValue('baud');
     var txIns = Blockly.mbed.Boards.selected.serialMapper[tx];
     var rxIns = Blockly.mbed.Boards.selected.serialMapper[rx];
     console.assert(txIns == rxIns);
     var name = 'jy901_' + txIns;
     Blockly.mbed.addInclude('sensors', '#include "sensors.h"');
+    Blockly.mbed.addInclude('jy901', '#include "JY901.h"');
     Blockly.mbed.addDeclaration(name, 'JY901 ' + name + '(' + tx + ',' + rx + ');');
-    return "";
+    return name+".baud("+baud+");\n";
 };
 
 Blockly.mbed['jy901_receive'] = function (block) {

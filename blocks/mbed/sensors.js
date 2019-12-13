@@ -581,7 +581,9 @@ Blockly.Blocks.jy901_setup.init = function () {
         .appendField("RX:")
         .appendField(
             new Blockly.FieldDropdown(
-                Blockly.mbed.Boards.selected.serialPinsRX), 'RX');
+                Blockly.mbed.Boards.selected.serialPinsRX), 'RX')
+        .appendField("Baud:")
+        .appendField(new Blockly.FieldNumber(9600, 0), 'baud');
     this.setInputsInline(true);
     /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
         it is very hard to detect whether the i2c is initialized or not
