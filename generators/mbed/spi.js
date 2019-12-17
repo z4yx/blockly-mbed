@@ -131,26 +131,33 @@ Blockly.mbed['nrf24_setup'] = function (block) {
   var cs = this.getFieldValue('CS');
   var ce = this.getFieldValue('CE');
   var irq = this.getFieldValue('IRQ');
-  var size = this.getFieldValue('SIZE');
-  var ch = this.getFieldValue('CH');
+  var rfch = this.getFieldValue('RFCH');
+  var addr = this.getFieldValue('ADDR');
+  var tr = this.getFieldValue('TR');
   var name = 'nrf24_' + mosi;
-  var macroSize = 'NRF24_TRANSFER_SIZE';
-  Blockly.mbed.addDeclaration(macroSize,'#define '+macroSize+' '+size);
   Blockly.mbed.addDeclaration(name, 'nRF24L01P ' + name + '(' + mosi + ',' + miso + ',' + sck + ',' + cs + ',' + ce + ',' + irq + ');');
   Blockly.mbed.addInclude('nRF24L01P', '#include "nRF24L01P.h"');
-  return name + '.powerUp();\n' +
-        name + '.setTransferSize( '+ macroSize + ' );\n' +
-        name + '.setReceiveMode();\n' +
-        name + '.setRxAddress(' + ch + 'ull);\n' +
-        name + '.setTxAddress(' + ch + 'ull);\n' +
-        name + '.enable();\n';
+  return name + '.setRxAddress(' + addr + 'ull);\n' +
+        name + '.setTxAddress(' + addr + 'ull);\n' +
+        name + '.NRF24L01_Init(' + rfch+ ', '+tr+');\n'+
+        name + '.nIRQ_.mode(PullDown);\n'+
+        name + '.nIRQ_.rise(& nRF_Analysis);\n';
 };
 
-Blockly.mbed['nrf24_check_irq'] = function (block) {
+Blockly.mbed['nrf24_irq'] = function (block) {
   var mosi = this.getFieldValue('MOSI');
   var name = 'nrf24_' + mosi;
   var code;
   code = name + '.NRF24L01_IRQ();\n';
+  return code;
+};
+
+
+Blockly.mbed['nrf24_check'] = function (block) {
+  var mosi = this.getFieldValue('MOSI');
+  var name = 'nrf24_' + mosi;
+  var code;
+  code = name + '.NRF24L01_Check();\n';
   return code;
 };
 
@@ -171,24 +178,6 @@ Blockly.mbed['nrf24_checksum'] = function (block) {
   return [code, Blockly.mbed.ORDER_MEMBER];
 };
 
-Blockly.mbed['nrf24_read'] = function (block) {
-  var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
-  var mosi = this.getFieldValue('MOSI');
-  var name = 'nrf24_' + mosi;
-  var code;
-  code = name + '.read( NRF24L01P_PIPE_P0, ' + buf + ', NRF24_TRANSFER_SIZE);\n';
-  return code;
-};
-
-Blockly.mbed['nrf24_write'] = function (block) {
-  var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
-  var mosi = this.getFieldValue('MOSI');
-  var name = 'nrf24_' + mosi;
-  var code;
-  code = name + '.write( NRF24L01P_PIPE_P0, ' + buf + ', NRF24_TRANSFER_SIZE);\n';
-  return code;
-};
-
 Blockly.mbed['nrf24_write_len'] = function (block) {
   var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
   var len = Blockly.mbed.getVariableName(block, this.getFieldValue('LEN'), Blockly.Variables.NAME_TYPE);
@@ -196,6 +185,15 @@ Blockly.mbed['nrf24_write_len'] = function (block) {
   var name = 'nrf24_' + mosi;
   var code;
   code = name + '.NRF_Send_TX(' + buf + ',' + len + ');\n';
+  return code;
+};
+
+Blockly.mbed['nrf24_connect'] = function (block) {
+  var buf = Blockly.mbed.getVariableName(block, this.getFieldValue('BUF'), Blockly.Variables.NAME_TYPE);
+  var mosi = this.getFieldValue('MOSI');
+  var name = 'nrf24_' + mosi;
+  var code;
+  code = name + '.Nrf_Connect(' + buf + ');\n';
   return code;
 };
 

@@ -261,10 +261,11 @@ Blockly.Blocks.nrf24_setup = {
               new Blockly.FieldDropdown(
                   Blockly.mbed.Boards.selected.digitalPins), 'IRQ');
       this.appendDummyInput()
-          .appendField("Message size")
-          .appendField(new Blockly.FieldNumber(4, 1, 32), 'SIZE')
-          .appendField("Channel Number")
-          .appendField(new Blockly.FieldNumber(114514, 1, 4294967295), 'CH');
+          .appendField("Channel")
+          .appendField(new Blockly.FieldNumber(40, 1, 4294967295), 'RFCH')
+          .appendField("Address")
+          .appendField(new Blockly.FieldNumber(8, 1, 4294967295), 'ADDR')
+          .appendField(new Blockly.FieldDropdown([['RX', 'RX'], ['TX', 'TX']]), 'TR');
 
       this.setInputsInline(false);
       /*  previous statement can not be revised to true, otherwise this block-svg is not top-level block and
@@ -287,7 +288,7 @@ Blockly.Blocks.nrf24_readable = {
   },
 };
 
-Blockly.Blocks.nrf24_check_irq = {
+Blockly.Blocks.nrf24_irq = {
   init: function () {
     this.setColour(Blockly.Blocks.spi.HUE);
     this.setPreviousStatement(true, null);
@@ -295,20 +296,19 @@ Blockly.Blocks.nrf24_check_irq = {
     this.appendDummyInput()
       .appendField("nRF24L01 on")
       .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
-      .appendField("check IRQ");
+      .appendField("IRQ");
   },
 };
 
-Blockly.Blocks.nrf24_read = {
+Blockly.Blocks.nrf24_check = {
   init: function () {
     this.setColour(Blockly.Blocks.spi.HUE);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.appendDummyInput()
-        .appendField("nRF24L01 on")
-        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
-        .appendField("receive data")
-        .appendField(new Blockly.FieldVariable('buf'), 'BUF');
+      .appendField("nRF24L01 on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("check");
   },
 };
 
@@ -324,19 +324,6 @@ Blockly.Blocks.nrf24_checksum = {
   },
 };
 
-Blockly.Blocks.nrf24_write = {
-  init: function () {
-    this.setColour(Blockly.Blocks.spi.HUE);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.appendDummyInput()
-        .appendField("nRF24L01 on")
-        .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
-        .appendField("send data")
-        .appendField(new Blockly.FieldVariable('buf'), 'BUF');
-  },
-};
-
 Blockly.Blocks.nrf24_write_len = {
   init: function () {
     this.setColour(Blockly.Blocks.spi.HUE);
@@ -349,6 +336,19 @@ Blockly.Blocks.nrf24_write_len = {
       .appendField(new Blockly.FieldVariable('buf'), 'BUF')
       .appendField("length")
       .appendField(new Blockly.FieldVariable('len'), 'LEN');
+  },
+};
+
+Blockly.Blocks.nrf24_connect = {
+  init: function () {
+    this.setColour(Blockly.Blocks.spi.HUE);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.appendDummyInput()
+      .appendField("nRF24L01 on")
+      .appendField(new Blockly.FieldDropdown(Blockly.mbed.Boards.selected.digitalPins), 'MOSI')
+      .appendField("connects")
+      .appendField(new Blockly.FieldVariable('buf'), 'BUF');
   },
 };
 
